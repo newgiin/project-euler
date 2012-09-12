@@ -82,13 +82,15 @@ def e_24():
     print perms[999999]
 
 def e_30():
+    result = []
     for i in range(2, 9999999):
         word = str(i)
-        sum = 0
+        acc = 0
         for c in word:
-            sum += int(c)**5
-        if (sum == i):
-            print word 
+            acc += int(c)**5
+        if (acc == i):
+            result.append(i) 
+    print sum(result)
 
 def e_29():
     all = set(i**j for i in range(2, 101) for j in range(2, 101)) 
@@ -657,7 +659,7 @@ def e_69():
             print n
     print max_n 
 
-start = time.time()
-e_69()
-print "TIME: " + str(time.time() - start)
+# start = time.time()
+# e_30()
+# print "TIME: " + str(time.time() - start)
 
