@@ -1,7 +1,6 @@
 import math
 import time
 import sys
-import threading
 
 def sieve(n):
     primes = [2]
@@ -614,7 +613,9 @@ def e_58():
         skip += 2
 
 def totient(n):
+    #print str(n) + ": 1",
     if (n == 2):
+    #    print ""
         return 1
     result = 1
     is_even = False
@@ -632,59 +633,31 @@ def totient(n):
                 for j in range(i+i, len(arr), i):
                     arr[j] = False
             else:
+    #            print i,
                 result += 1
-				
+
+    # loop_start = n/2 + 1
+    # if (is_even and loop_start % 2 == 0):
+    #     loop_start += 1 
+    # for i in range(loop_start, len(arr), step):
+    #     if (arr[i]):
+    #         print i,
+    #         result += 1
+    #print ""
     return result*2
 
-def max_totient_ratio(start, end, step=1):
+def e_69():
     max = 0
     max_n = 0
-    for n in range(start, end+1, step):
+    for n in range(6, 1000001, 6):
         r = float(n) / totient(n)
         if (r > max):
             max = r
             max_n = n
-    return [max_n, max] 
-	
-# class TotientRunner(threading.Thread):
-    # start = 0
-    # end = 0
-    # arr = []
-    # step = 1
-    # def __init__(self,  arr, start, end, step=1):
-        # self.start = start
-        # self.end = end
-        # self.step = step
-        # self.arr = arr
-    # def run(self):
-            # arr.append(max_totient_ratio(start, end, step))
- 
-class TotientRunner(threading.Thread):
-    def __init__(self,  arr, a, b, step=1):
-        threading.Thread.__init__(self)
-        self.a = a
-        self.b = b
-        self.step = step
-        self.arr = arr
-        
-    def run(self):
-        self.arr.append(max_totient_ratio(self.a, self.b, self.step))
-        print self.arr
-        
-def e_69():
-    results = []
-    threads = []
-    for i in range(0, 10):
-        t = TotientRunner(results, i*100000+1, (i+1)*100000, 6)
-        threads.append(t)
-    for t in threads:
-        t.start()
-    for thread in threading.enumerate():
-        if (thread is not threading.currentThread()):
-            thread.join()
-    print results
-    
+            print n
+    print max_n 
+
 start = time.time()
 e_69()
-print time.time() - start
+print "TIME: " + str(time.time() - start)
 
