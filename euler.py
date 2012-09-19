@@ -1,7 +1,16 @@
 import math
 import time
+from decimal import *
 import sys
 
+
+# ####################################
+# Misc. functions
+# ####################################
+
+# ------------------------
+# Number crunching
+# ------------------------
 def sieve(n):
     primes = [2]
     nums = [True]*n
@@ -26,6 +35,45 @@ def sieve(n):
     
     return primes
 
+def is_prime(x):
+    if (x == 2):
+        return True
+    if (x < 2 or x % 2 == 0):
+        return False
+    for i in range(3, int(math.sqrt(x)+1), 2):
+        if (x % i == 0):
+            return False
+    return True
+    
+def get_factors(x):
+    result = [1]
+    if (x == 1):
+        return result
+
+    root = math.sqrt(x)
+    for i in range(2, int(root)+1):
+        if (x % i == 0):
+            result.append(i)
+            result.append(x/i)
+    result.sort()
+
+    if (root % 1 == 0):
+        result.remove(int(root)) # remove duplicate root 
+
+    return result  
+
+def factorial(n):
+    result = 1
+    for i in range(2, n+1):
+        result *= i
+    return result   
+  
+def get_primeFactors(x):
+    prime_factors = filter(is_prime, get_factors(x))
+    return prime_factors              
+# ------------------------
+# String crunching
+# ------------------------
 def is_perm(x, y):
     y = str(y)
     for c in (str(x)):
@@ -36,24 +84,395 @@ def is_perm(x, y):
     if (len(y) == 0):
         return True
     return False
+    
+def get_perms(word):
+    result = []
+    for i in range(0, len(word)):
+        remainder = word[0:i] + word[i+1:]
+        for perm in get_perms(remainder):
+            result.append(word[i] + perm)
+    if (len(word) == 1):
+        result.append(word[0])
+    return result    
 
-def is_prime(x):
-    if (x == 2):
-        return True
-    if (x < 2 or x % 2 == 0):
+def is_perm(a, b):
+    a = str(a)
+    b = str(b)
+    if (len(a) != len(b)):
         return False
-    for i in range(3, int(math.sqrt(x)+1), 2):
-        if (x % i == 0):
+    for c in a:
+        ind = -1
+        try:
+            ind = b.index(c) 
+        except ValueError:
             return False
-    return True
+        b = b[0:ind] + b[ind+1:len(b)] 
+    return True    
+    
 
-def naive(n):
-    primes = [2]
-    for i in range(3, n, 2):
-        if (is_prime(i)):
-            primes.append(i)
-    return primes
+def is_palindrome(s):
+    s= str(s)
+    for i in range(0, len(s)/2):
+        if (s[i] != s[len(s)-1-i]):
+            return False
+    return True 
+         
+# ------------------------
 
+# ####################################
+# Solutions
+# ####################################
+
+# ----------------
+# 2011 code
+# ----------------
+def e_16():
+    print sum([int(c) for c in str(2**1000)])
+
+def e_13():
+    f = open("e_13.in", "r")
+    line = f.readline()
+    # 2d array holding last 10 digits per line
+    # must do it this way since Python has no easy way to make 2d arrays
+    arr = [[],[],[],[],[],[],[],[],[],[]]
+    while(line):
+        arr[0].append(int(line[49]))
+        arr[1].append(int(line[48]))
+        arr[2].append(int(line[47]))
+        arr[3].append(int(line[46]))
+        arr[4].append(int(line[45]))
+        arr[5].append(int(line[44]))
+        arr[6].append(int(line[43]))
+        arr[7].append(int(line[42]))
+        arr[8].append(int(line[41]))
+        arr[9].append(int(line[40]))
+        line = f.readline()
+    
+    carry = 0
+    result = "" 
+    for place in range(10):
+        sum = carry
+        for digit in arr[place]:
+            sum += digit
+        ones = sum%10
+        result = str(ones) + result
+        carry = int((sum - ones)/10)
+    print result
+
+def e_14():
+    occurence = 0
+    maxlength = 0
+    memoi = [0]*1000000
+    for curr in xrange(1000000):
+        length = 1
+        n = curr
+        if(memoi[n] != 0):
+            length = memoi[n]
+        else:
+            while(n > 1):
+                if(n < 1000000 and memoi[n] != 0):
+                    length += memoi[n]
+                    break
+                if(n%2 == 0):
+                    n =int(n/2)
+                else:
+                    n = 3*n + 1
+                length += 1
+        memoi[curr] = length
+        if(length > maxlength):
+            maxlength = length
+            occurence = curr
+    print(str(occurence) + " | " + str(maxlength))    
+
+def e_17():
+    print sum([int(x) for x in str(math.factorial(100))])
+
+def e_18():
+    arr = [
+    [75],
+    [95, 64],
+    [17, 47, 82],
+    [18, 35, 87, 10],
+    [20, 04, 82, 47, 65],
+    [19, 01, 23, 75, 03, 34],
+    [88, 02, 77, 73, 07, 63, 67],
+    [99, 65, 04, 28, 06, 16, 70, 92],
+    [41, 41, 26, 56, 83, 40, 80, 70, 33],
+    [41, 48, 72, 33, 47, 32, 37, 16, 94, 29],
+    [53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14],
+    [70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57],
+    [91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48],
+    [63, 66, 04, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],
+    [04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 04, 23]]
+
+    for row in range(1, len(arr)):
+        arr[row][0] += arr[row-1][0]
+        for i in range(1, len(arr[row])-1):
+            if(arr[row-1][i-1] > arr[row-1][i]):
+                arr[row][i] += arr[row-1][i-1]
+            else:
+                arr[row][i] += arr[row-1][i]
+        arr[row][len(arr[row])-1] += arr[row-1][len(arr[row-1])-1]
+    print max(arr[len(arr)-1])      
+    
+def e_19():
+    SUN = 1; MON = 2;TUE = 3;WED  =4; THU = 5; FRI = 6; SAT = 7; 
+    year = 1901
+    month = 1
+    day = TUE
+
+    sum = 0
+    while(year < 2001):
+        month = 1
+        while(month <= 12):
+            if(month == 9 or month == 4 or month == 6 or month == 11):
+                day += 1
+                if(day > SAT):
+                    day = SUN
+            elif(month == 2):
+                day -= 1
+                if(day < SUN):
+                    day = SAT
+            else:
+                if(day == SAT):
+                    day = MON
+                elif(day == FRI):
+                    day = SUN
+                else:
+                    day += 2
+            if(day == SUN):
+                sum += 1
+            month += 1
+        year += 1
+    
+    print sum
+    
+def sumDivisors(n):
+    sum = 0;
+    for i in range(1, int(math.sqrt(n))+1):
+        if(n%i == 0):
+            sum += i;
+            sum += n/i;
+    return sum;
+        
+def e_21():
+    n = 10000;
+    visited = [];
+    result = 0;
+    for i in range(n):
+        if i not in visited:
+            d = sumDivisors(i);
+            if(sumDivisors(d) == i and d != i):
+                result += i;
+                visited.append(i);
+                if(d < n):
+                    result += d;
+                    visited.append(d);
+    print result;
+    
+def e_25():
+    first = 0
+    sec = 1
+    n = 1
+    while(len(str(sec)) < 1000):
+    #while(n < 20):
+        temp = first
+        first = sec
+        sec += temp
+        n += 1
+    print n
+    
+def findMaxRecur(s):
+    result = ""
+    # do that binary split magic!
+    rightLimit = int(len(s)/2)
+    while(rightLimit > 0):
+        for start in range(len(s)-rightLimit*2+1):
+            substring = s[start:rightLimit+start]
+            if(substring == s[rightLimit+start:rightLimit+start+len(substring)]):
+                # if 's' contains substring sufficient number of times, 
+                # with some leeway at head and tail
+                if(s.count(substring) > int(len(s)/len(substring))-5):
+                    subresult = findMaxRecur(substring)
+                    if(len(subresult) > 0):
+                        return subresult
+                    else:
+                        return substring
+        rightLimit -= 1
+    return result
+    
+def e_26():
+    getcontext().prec = 2000
+    max_d = 0
+    max_str = ""
+    start = time.time()
+    for d in range(3,1000):
+        dec = str(Decimal(1)/Decimal(d)).split(".")[1]
+        recurrer = findMaxRecur(dec)
+        if(len(max_str) < len(recurrer)):
+            max_d = d
+            max_str = recurrer
+        
+    print str(max_d)
+    
+def e_27():
+    max_primes = 0
+    max_a = 0
+    max_b = 0
+    for a in range(-999, 1000):
+        for b in range(-999, 1000):
+            n = 0
+            while (is_prime(n**2 + a*n + b)):
+                n += 1
+            if (n > max_primes):
+                max_primes = n
+                max_a = a
+                max_b = b
+    print max_a*max_b
+    
+def e_28():
+    spiralSize = 3
+    curr = 1
+    result = 1
+    while(spiralSize <= 1001):
+        for i in range(4):
+            curr += spiralSize-1
+            result += curr
+        spiralSize += 2
+    print result
+    
+def e_31():
+    denoms = [1,2,5,10,20,50,100,200]
+
+    def combo_recurr(n, maxDenom):
+        if(maxDenom == 1):
+            return 1
+        remainder = n - maxDenom
+        if(remainder == 0):
+            return 1 + combo_recurr(n,denoms[denoms.index(maxDenom)-1])
+        if(remainder < 0):
+            return combo_recurr(n, denoms[denoms.index(maxDenom)-1])
+        return combo_recurr(remainder, maxDenom)+combo_recurr(n, denoms[denoms.index(maxDenom)-1])
+    
+    def combos(n):
+        return combo_recurr(n,200)
+    
+    
+    print combos(200)
+
+def e_35():
+    def isCircular(n):
+        n = list(str(n));
+        for i in range(len(n)-1):
+            last = n[len(n)-1]
+            for c in range(len(n)-2, -1, -1):
+                n[c+1] = n[c];
+            n[0] = last;
+            if(is_prime(int("".join(n))) == False):
+                return False;
+        return True;
+
+    primes = sieve(1000000)
+
+    # count number of circular primes
+    count = 0;
+    for i in range(len(primes)):
+        if(isCircular(primes[i])):
+            count += 1;
+    print count;
+    
+def e_36():
+    total = 0
+    for n in range(1000000):
+        if(is_palindrome(n) and is_palindrome("{0:b}".format(n))):
+            total += n
+    print total
+    
+def e_37():
+    primes = sieve(900000)
+    result = []
+    for i in range(4,len(primes)):
+        s = str(primes[i])
+        # remove from right to left
+        truncable = True
+        while(len(s) > 1):
+            s = s[0:len(s)-1]
+            if(int(s) not in primes):
+                truncable = False
+                break
+        if(truncable):
+            # from left to right
+            s = str(primes[i])
+            while(len(s) > 1):
+                s = s[1:len(s)]
+                if(int(s) not in primes):
+                    truncable = False
+                    break
+        if(truncable):
+            result.append(primes[i])
+    print sum(result)
+    
+def e_40():
+    d_end = 0
+    d = 1
+    p = 0
+    result = 1
+    while (d <= 1000000):
+        d_beg = d_end + 1
+        r = 10**p
+        len_r = len(str(r))
+        i_beg = 10**p
+        i_end = 10**(p+1)-1
+        d_end = d_beg + len_r*9*r-1
+        while (d >= d_beg and d <= d_end):
+            d_cell = (d - d_beg) / len_r
+            num = i_beg + d_cell     
+            digit = str(num)[(d - d_beg) % len_r]
+            result *= int(digit)
+            d *= 10
+        p += 1
+    print result
+        
+def e_41():
+    def isPanDigital(x):
+        x = str(x)
+        n = len(x)
+        digits = []
+        for i in range(1, n+1):
+            digits.append(str(i))
+        for i in range(len(digits)):
+            if digits[i] not in x:
+                return False
+        return True
+    
+    primes = sieve(99999999)
+    for i in reversed(primes):
+        if(isPanDigital(i)):
+            print i
+            break
+        
+def e_67():
+    tri = open("triangle.txt", "r")
+    line = tri.readline()
+    arr = []
+    while(line):
+        row = []
+        for num in line.split():
+            row.append(int(num))
+        arr.append(row)
+        line = tri.readline()
+    
+    for row in range(1, len(arr)):
+        arr[row][0] += arr[row-1][0]
+        for i in range(1, len(arr[row])-1):
+            if(arr[row-1][i-1] > arr[row-1][i]):
+                arr[row][i] += arr[row-1][i-1]
+            else:
+                arr[row][i] += arr[row-1][i]
+        arr[row][len(arr[row])-1] += arr[row-1][len(arr[row-1])-1]
+    print max(arr[len(arr)-1])                
+# -------------
+    
 def e_49():
     primes = sieve(10000)
     for i in range(0, len(primes)-3):
@@ -66,16 +485,6 @@ def e_49():
                     partner = -1
                 if (partner != -1 and is_perm(primes[j], primes[partner])):
                     print str(primes[i]) + " " + str(primes[j]) + " " + str(primes[partner])
-
-def get_perms(word):
-    result = []
-    for i in range(0, len(word)):
-        remainder = word[0:i] + word[i+1:]
-        for perm in get_perms(remainder):
-            result.append(word[i] + perm)
-    if (len(word) == 1):
-        result.append(word[0])
-    return result
 
 def e_24():
     perms = get_perms("0123456789")
@@ -96,33 +505,11 @@ def e_29():
     all = set(i**j for i in range(2, 101) for j in range(2, 101)) 
     print len(all)
 
-def factorial(n):
-    if (n == 0):
-        return 1
-    return n * factorial(n-1)
-
 def e_34():
     for i in range(3, 99999):
         total = sum(factorial(int(c)) for c in str(i))
         if (total == i):
             print i
-
-def get_factors(x):
-    result = [1]
-    if (x == 1):
-        return result
-
-    root = math.sqrt(x)
-    for i in range(2, int(root)+1):
-        if (x % i == 0):
-            result.append(i)
-            result.append(x/i)
-    result.sort()
-
-    if (root % 1 == 0):
-        result.remove(int(root)) # remove duplicate root 
-
-    return result
 
 # Returns list of abundant numbers up to n 
 def get_abundants(n):
@@ -177,20 +564,6 @@ def e_45():
        n += 1
        tri = n*(n+1)/2
     print tri 
-
-def is_perm(a, b):
-    a = str(a)
-    b = str(b)
-    if (len(a) != len(b)):
-        return False
-    for c in a:
-        ind = -1
-        try:
-            ind = b.index(c) 
-        except ValueError:
-            return False
-        b = b[0:ind] + b[ind+1:len(b)] 
-    return True
 
 def e_52():
     i = 10
@@ -263,12 +636,6 @@ def e_32():
             if (is_perm(a_s + b_s + str(prod), "123456789")): 
                 result.add(prod)
     print sum(result)
-
-def factorial(n):
-    result = 1
-    for i in range(2, n+1):
-        result *= i
-    return result
  
 def e_53():
     total = 0
@@ -300,12 +667,6 @@ def e_38():
         if (is_perm(ct_prd, "123456789") and int(ct_prd) > max):
             max = int(ct_prd)
     print max    
-
-def is_palindrome(s):
-    for i in range(0, len(s)/2):
-        if (s[i] != s[len(s)-1-i]):
-            return False
-    return True 
 
 def e_55():
     result = 0
@@ -399,10 +760,6 @@ def e_46():
             print i
             return  
         i += 2
-
-def get_primeFactors(x):
-    prime_factors = filter(is_prime, get_factors(x))
-    return prime_factors
     
 def e_47():
     i = 1000
@@ -659,7 +1016,12 @@ def e_69():
             print n
     print max_n 
 
-# start = time.time()
-# e_30()
-# print "TIME: " + str(time.time() - start)
+
+def main():
+    start = time.time()
+    e_30()
+    print "TIME: " + str(time.time() - start)
+
+if __name__ == '__main__':
+    main()
 
