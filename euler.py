@@ -3,6 +3,7 @@ import time
 from decimal import *
 import sys
 
+INPUT_DIR = "in_files/"
 
 # ####################################
 # Misc. functions
@@ -1016,7 +1017,46 @@ def e_69():
             print n
     print max_n 
 
-
+def e_81():
+    f = open(INPUT_DIR + "matrix.txt", "r")
+    arr = []
+    for line in f:
+        arr.append(map(int, line.split(",")))
+    
+    num_rows = len(arr)
+    num_cols = len(arr[0])
+    # update edges
+    for col in range(1, num_cols):
+        arr[0][col] += arr[0][col-1]
+    for row in range(1, num_rows):
+        arr[row][0] += arr[row-1][0]
+        
+    curr = 1
+    while (curr < num_rows):
+        for col in range(curr, num_cols):
+            if (arr[curr][col-1] < arr[curr-1][col]):
+                arr[curr][col] += arr[curr][col-1]
+            else:
+                arr[curr][col] += arr[curr-1][col]
+        for row in range(curr+1, num_rows):
+            if (arr[row][curr-1] < arr[row-1][curr]):
+                arr[row][curr] += arr[row][curr-1]
+            else:
+                arr[row][curr] += arr[row-1][curr]
+        curr += 1
+    print arr[num_rows-1][num_cols-1]
+    
+def e_76():
+    def num_sums(n):
+        result = 0
+        if (n == 0):
+            return result
+        for i in range(1, n/2 + 1):
+            rmdr = n - i
+            result += 1 + num_sums(rmdr)
+        return result
+    print num_sums(5)
+    
 def main():
     start = time.time()
     e_30()

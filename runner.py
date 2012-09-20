@@ -12,7 +12,7 @@ def timeout_handler(signum, frame):
 
 def run_sol(n, timeout):
     func_name = "euler.e_" + str(n) + "()"
-    print func_name + ": ",
+    print "Euler #" + str(n) + ": ",
     
     if timeout is not None:
         signal.signal(signal.SIGALRM, timeout_handler)
