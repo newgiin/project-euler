@@ -1046,20 +1046,25 @@ def e_81():
         curr += 1
     print arr[num_rows-1][num_cols-1]
     
+def num_sums(n, terms, lwr_lim):
+    if (terms == 1):
+        return 1
+    result = 0
+    for i in range(lwr_lim, n/terms + 1):
+        rmdr = n - i
+        result += num_sums(rmdr, terms - 1, i)
+    return result
+    
 def e_76():
-    def num_sums(n):
-        result = 0
-        if (n == 0):
-            return result
-        for i in range(1, n/2 + 1):
-            rmdr = n - i
-            result += 1 + num_sums(rmdr)
-        return result
-    print num_sums(5)
+    n = 100
+    result = 0
+    for num_terms in range(2, n+1):
+        result += num_sums(n, num_terms, 1)
+    print result
     
 def main():
     start = time.time()
-    e_30()
+    e_76()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
