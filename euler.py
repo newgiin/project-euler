@@ -1,5 +1,6 @@
 import math
 import time
+import fractions
 from decimal import *
 import sys
 
@@ -915,46 +916,38 @@ def e_59():
             return
     print "FAILED"
 
-def e_92():
-    total = 0
-    lkup_tbl = {}
-    for i in range(1, 10000000):
-        curr = i
-        while (curr != 89 and curr != 1):
-            sum_digits = 0
-            for c in str(curr):
-                sum_digits += int(c)**2
-            curr = sum_digits
-            if (curr in lkup_tbl):
-                break
-        if (curr == 89 or curr in lkup_tbl and lkup_tbl[curr] == True):
-            lkup_tbl[i] = True
-            total += 1
-        else:
-            lkup_tbl[i] = False
-    print total
 
-# Determine the decimal portion of sqrt(2) to the n'th expansion.
-def sqrt2_helper(n):
-    if (n == 1):
-        return .5
-    return float(1)/(2+sqrt2_helper(n-1)) 
+def has_flush(hand):
+    pass
+
+def has_str8_flush(hand):
+    if (is_str8(hand) and has_flush(hand)):
+        return True
+    return False        
+
+class Suit:
+    HEART, DIAMOND, SPADE, CLUB = range(4)
+    
+class Card:
+    def __init__(self, val, suit):
+        self.val = val
+        self.suit = suit
+        
+def e_54():
+    f = open(INPUT_DIR + "poker.txt", "r")
+    
 
 def e_57():
-    lkup_tbl = {}
-    for i in range(1, 5):
-        expan = i
-        acc = .5
-        while (expan > 1):
-            if ((expan-1) in lkup_tbl):
-                acc = lkup_tbl[expan-1]
-                acc = float(1) / (2+acc)
-                break
-            acc = float(1) / (2+acc)
-            expan -= 1
-        lkup_tbl[i] = acc
-        print 1 + acc 
-
+    result = 0
+    acc = fractions.Fraction(1, 2)
+    for i in range(1, 1000):
+        acc = 2 + acc
+        acc = fractions.Fraction(acc.denominator, acc.numerator) # 1 / acc
+        sqrt_2 = acc + 1
+        if (len(str(sqrt_2.numerator)) > len(str(sqrt_2.denominator))):
+            result += 1
+    print result
+        
 def e_58():
     skip = 1
     p = 0
@@ -1061,10 +1054,29 @@ def e_76():
     for num_terms in range(2, n+1):
         result += num_sums(n, num_terms, 1)
     print result
-    
+      
+def e_92():
+    total = 0
+    lkup_tbl = {}
+    for i in range(1, 10000000):
+        curr = i
+        while (curr != 89 and curr != 1):
+            sum_digits = 0
+            for c in str(curr):
+                sum_digits += int(c)**2
+            curr = sum_digits
+            if (curr in lkup_tbl):
+                break
+        if (curr == 89 or curr in lkup_tbl and lkup_tbl[curr] == True):
+            lkup_tbl[i] = True
+            total += 1
+        else:
+            lkup_tbl[i] = False
+    print total
+            
 def main():
     start = time.time()
-    e_76()
+    e_54()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
