@@ -450,15 +450,11 @@ def e_41():
             break
         
 def e_67():
-    tri = open("triangle.txt", "r")
-    line = tri.readline()
+    f = open("triangle.txt", "r")
     arr = []
-    while(line):
+    for line in f:
         row = [int(num) for num in line.split()]
-        for num in line.split():
-            row.append(int(num))
         arr.append(row)
-        line = tri.readline()
     
     for row in range(1, len(arr)):
         arr[row][0] += arr[row-1][0]
@@ -1074,9 +1070,7 @@ def e_58():
         skip += 2
 
 def totient(n):
-    #print str(n) + ": 1",
     if (n == 2):
-    #    print ""
         return 1
     result = 1
     is_even = False
@@ -1094,17 +1088,8 @@ def totient(n):
                 for j in range(i+i, len(arr), i):
                     arr[j] = False
             else:
-    #            print i,
                 result += 1
-
-    # loop_start = n/2 + 1
-    # if (is_even and loop_start % 2 == 0):
-    #     loop_start += 1 
-    # for i in range(loop_start, len(arr), step):
-    #     if (arr[i]):
-    #         print i,
-    #         result += 1
-    #print ""
+                
     return result*2
 
 def e_69():
