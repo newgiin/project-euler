@@ -25,15 +25,11 @@ def sieve(n):
             nums[sieve] = False
             sieve += step 
         # find next unmarked num
-        found = False
         i += 2
         while (i < n):
            if (nums[i]):
-                found = True
                 break 
            i += 2
-        if (not found):
-            break
     
     return primes
 
@@ -458,7 +454,7 @@ def e_67():
     line = tri.readline()
     arr = []
     while(line):
-        row = []
+        row = [int(num) for num in line.split()]
         for num in line.split():
             row.append(int(num))
         arr.append(row)
