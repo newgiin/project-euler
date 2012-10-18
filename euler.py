@@ -911,9 +911,7 @@ def e_59():
 """ Container for find_repeat_vals result """
 class _RepeatValsResult:
     is_4_kind = is_3_kind = is_2_pair = is_pair = False
-    val = 0 # value of a {3,4}-of-a-kind
-    pair_1_val = 0
-    pair_2_val = 0
+    val = pair1_val = pair2_val = None # value of a {3,4}-of-a-kind, pair vals
     remainder = []
 
 """ Determines if a hand contains pairs, or a {3,4}-of-a-kind """    
@@ -934,12 +932,12 @@ def find_repeat_vals(hand):
             result.is_3_kind = True
             result.val = val
         elif (vals[val] == 2):
-            if (result.pair_1_val == 0):
+            if (result.pair1_val == 0):
                 result.is_pair = True
-                result.pair_1_val = val
+                result.pair1_val = val
             else:
                 result.is_two_pair = True
-                result.pair_2_val = val
+                result.pair2_val = val
         else:
             result.remainder.append(val)
     return result
@@ -949,7 +947,7 @@ Container for find_str8() result. Also stores high-card since find_str8() sorts 
 hand allowing easy access to highcard.
 """      
 class _FindStr8Result:
-    high_card = 0
+    high_card = None
     has_str8 = False
             
 def find_str8(hand):
@@ -993,11 +991,12 @@ class _HandRank:
     HIGH_CARD, PAIR, TWO_PAIR, THREE_KIND, STR8, FLUSH\
     , FULL_HOUSE, FOUR_KIND, STR8_FLUSH = range(9)
     
-def rank_hand(hand):
+def rank_hand(hand_info):
     rank = _HandRank.HIGH_CARD
-    rep_result = find_repeat_vals(hand)
-    str8_result = find_str8(hand)
-    is_flush = has_flush(hand)   
+    
+    rep_result = hand_info.rep_result
+    str8_result =  hand_info.str8_result
+    is_flush =  hand_info.is_flush   
     
     if (rep_result.is_2_pair):
         rank = _HandRank.TWO_PAIR
@@ -1017,12 +1016,39 @@ def rank_hand(hand):
         rank = _HandRank.FLUSH
         
     return rank    
+
+"""
+Wrapper containing all the information you need about a poker hand.
+"""
+class _HandInfo:
+    def __init__(self, hand):
+        self.rep_result = find_repeat_vals(hand)
+        self.str8_result = find_str8(hand)
+        self.is_flush = has_flush(hand)
+        self.rank = rank_hand(self)
         
-def is_winning_hand(hand_1, hand_2):
-    if (rank_hand(hand_1) == rank_hand(hand_2)):
-        return True
-    return False
-                   
+""" Returns True iff hand 1 is the winning hand """        
+def is_winning_hand(h1_info, h2_info):
+    if (h1_info.rank != h2_info.rank):
+        return h1_info.rank > h2_info.rank
+    # resolve tie
+    if (h1_info.rank == _HandRank.PAIR or h1_info.rank == _HandRank.TWO_PAIR):
+        h1_pair_val = max(h1_info.rep_result.pair1_val, h1_info.rep_result.pair2_val)
+        h2_pair_val = max(h2_info.rep_result.pair1_val, h2_info.rep_result.pair2_val)
+        if (h1_pair_val > h2_pair_val):
+            return True
+        elif (h1_pair_val < h2_pair_val):
+            return False
+    elif (h1_info.rank == _HandRank.THREE_KIND or h1_info.rank == _HandRank.FOUR_KIND):
+        if (h1_info.rep_result.val > h2_info.rep_result.val):
+            return True
+        elif (h1_info.rep_result.val < h2_info.rep_result.val):
+            return False
+    elif (h1_info.rank == _HandRank.FULL_HOUSE):
+        return h1_info.rep_result.val > h2_info.rep_result.val
+
+    return h1_info.str8_result.high_card > h2_info.str8_result.high_card
+    
 def e_54():
     result = 0
     f = open(INPUT_DIR + "poker.txt", "r")
@@ -1034,11 +1060,15 @@ def e_54():
         for i in range(0, 5):
             p1_hand.append(_Card(cards[i]))
         for i in range(5, 10):
-            p2_hand.append(_Card(cards[i]))           
+            p2_hand.append(_Card(cards[i]))
+        
+        hand_info_1 = _HandInfo(p1_hand)
+        hand_info_2 = _HandInfo(p2_hand)
         # determine winner
-        if (is_winning_hand(p1_hand, p2_hand)):
+        if (is_winning_hand(hand_info_1, hand_info_2)):
             print line
             result += 1
+            
     print result
     
 def e_57():
@@ -1105,9 +1135,7 @@ def e_69():
 
 def e_81():
     f = open(INPUT_DIR + "matrix.txt", "r")
-    arr = []
-    for line in f:
-        arr.append(map(int, line.split(",")))
+    arr = [map(int, line.split(",")) for line in f]
     
     num_rows = len(arr)
     num_cols = len(arr[0])
