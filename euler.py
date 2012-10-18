@@ -1039,13 +1039,12 @@ def is_winning_hand(h1_info, h2_info):
             return True
         elif (h1_pair_val < h2_pair_val):
             return False
-    elif (h1_info.rank == _HandRank.THREE_KIND or h1_info.rank == _HandRank.FOUR_KIND):
+    elif (h1_info.rank == _HandRank.THREE_KIND or h1_info.rank == _HandRank.FOUR_KIND or\
+            h1_info.rank == _HandRank.FULL_HOUSE):
         if (h1_info.rep_result.val > h2_info.rep_result.val):
             return True
         elif (h1_info.rep_result.val < h2_info.rep_result.val):
             return False
-    elif (h1_info.rank == _HandRank.FULL_HOUSE):
-        return h1_info.rep_result.val > h2_info.rep_result.val
 
     return h1_info.str8_result.high_card > h2_info.str8_result.high_card
     
