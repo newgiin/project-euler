@@ -910,20 +910,23 @@ def e_59():
 
 """ Container for find_repeat_vals result """
 class _RepeatValsResult:
-    is_4_kind = is_3_kind = is_2_pair = is_pair = False
-    val = pair1_val = pair2_val = None # value of a {3,4}-of-a-kind, pair vals
-    remainder = []
+    def __init__(self):
+        self.is_4_kind = self.is_3_kind = self.is_2_pair = self.is_pair = False
+        # value of a {3,4}-of-a-kind, pair vals
+        self.val = self.pair1_val = self.pair2_val = None
+        self.remainder = []
 
 """ Determines if a hand contains pairs, or a {3,4}-of-a-kind """    
 def find_repeat_vals(hand):
     vals = {} # Map: val -> # of cards with value of 'val' in hand
     result = _RepeatValsResult()
+
     for card in hand:
         if (card.val in vals):
             vals[card.val] += 1
         else:
             vals[card.val] = 1
-            
+
     for val in vals:
         if (vals[val] == 4):
             result.is_4_kind = True
@@ -932,7 +935,7 @@ def find_repeat_vals(hand):
             result.is_3_kind = True
             result.val = val
         elif (vals[val] == 2):
-            if (result.pair1_val == 0):
+            if (result.pair1_val is None):
                 result.is_pair = True
                 result.pair1_val = val
             else:
@@ -947,8 +950,9 @@ Container for find_str8() result. Also stores high-card since find_str8() sorts 
 hand allowing easy access to highcard.
 """      
 class _FindStr8Result:
-    high_card = None
-    has_str8 = False
+    def __init__(self):
+        self.high_card = None
+        self.has_str8 = False
             
 def find_str8(hand):
     result = _FindStr8Result()
@@ -977,7 +981,9 @@ class _Card:
         try:
             self.val = int(s[0])
         except ValueError:
-            if (s[0] == "J"):
+            if (s[0] == "T"):
+                self.val = 10
+            elif (s[0] == "J"):
                 self.val = 11
             elif (s[0] == "Q"):
                 self.val = 12
@@ -987,10 +993,18 @@ class _Card:
                 self.val = 14
         self.suit = s[1]
         
+    def __repr__(self):
+        return self.suit + "-" + str(self.val)
+        
 class _HandRank:
     HIGH_CARD, PAIR, TWO_PAIR, THREE_KIND, STR8, FLUSH\
     , FULL_HOUSE, FOUR_KIND, STR8_FLUSH = range(9)
-    
+
+def print_rank(rank):
+    ranks = ["HIGH_CARD", "PAIR", "TWO_PAIR", "THREE_KIND", "STR8", "FLUSH"\
+    , "FULL_HOUSE", "FOUR_KIND", "STR8_FLUSH"]
+    return ranks[rank]
+       
 def rank_hand(hand_info):
     rank = _HandRank.HIGH_CARD
     
@@ -1039,18 +1053,23 @@ def is_winning_hand(h1_info, h2_info):
             return True
         elif (h1_pair_val < h2_pair_val):
             return False
+        else:
+            return max(h1_info.rep_result.remainder) > max(h2_info.rep_result.remainder)
     elif (h1_info.rank == _HandRank.THREE_KIND or h1_info.rank == _HandRank.FOUR_KIND or\
             h1_info.rank == _HandRank.FULL_HOUSE):
         if (h1_info.rep_result.val > h2_info.rep_result.val):
             return True
         elif (h1_info.rep_result.val < h2_info.rep_result.val):
             return False
-
+    if (h1_info.str8_result.high_card == h2_info.str8_result.high_card):
+        raise Exception("NO CLEAR WINNER")
+        
     return h1_info.str8_result.high_card > h2_info.str8_result.high_card
-    
+
 def e_54():
     result = 0
     f = open(INPUT_DIR + "poker.txt", "r")
+    # f = open(INPUT_DIR + "test.txt", "r")
     for line in f:
         cards = line.split()
         p1_hand = []
@@ -1065,9 +1084,14 @@ def e_54():
         hand_info_2 = _HandInfo(p2_hand)
         # determine winner
         if (is_winning_hand(hand_info_1, hand_info_2)):
-            print line
+            print str(p1_hand) + "  |  " + str(p2_hand) + " | " + \
+            print_rank(hand_info_1.rank) + " beat " + \
+                print_rank(hand_info_2.rank) + "\n"
             result += 1
-            
+        else:
+            print str(p1_hand) + "  |  " + str(p2_hand) + \
+                " | " + print_rank(hand_info_1.rank) + \
+                " lost " + print_rank(hand_info_2.rank) + "\n"
     print result
     
 def e_57():
