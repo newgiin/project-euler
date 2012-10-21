@@ -911,7 +911,7 @@ def e_59():
 """ Container for find_repeat_vals result """
 class _RepeatValsResult:
     def __init__(self):
-        self.is_4_kind = self.is_3_kind = self.is_2_pair = self.is_pair = False
+        self.is_four_kind = self.is_three_kind = self.is_two_pair = self.is_pair = False
         # value of a {3,4}-of-a-kind, pair vals
         self.val = self.pair1_val = self.pair2_val = None
         self.remainder = []
@@ -929,10 +929,10 @@ def find_repeat_vals(hand):
 
     for val in vals:
         if (vals[val] == 4):
-            result.is_4_kind = True
+            result.is_four_kind = True
             result.val = val
         elif (vals[val] == 3):
-            result.is_3_kind = True
+            result.is_three_kind = True
             result.val = val
         elif (vals[val] == 2):
             if (result.pair1_val is None):
@@ -1012,15 +1012,15 @@ def rank_hand(hand_info):
     str8_result =  hand_info.str8_result
     is_flush =  hand_info.is_flush   
     
-    if (rep_result.is_2_pair):
+    if (rep_result.is_two_pair):
         rank = _HandRank.TWO_PAIR
     elif (rep_result.is_pair):
         rank = _HandRank.PAIR
-        if (rep_result.is_3_kind):
+        if (rep_result.is_three_kind):
             rank = _HandRank.FULL_HOUSE
-    elif (rep_result.is_3_kind):
+    elif (rep_result.is_three_kind):
         rank = _HandRank.THREE_KIND
-    elif (rep_result.is_4_kind):
+    elif (rep_result.is_four_kind):
         rank = _HandRank.FOUR_KIND
     elif (str8_result.has_str8):
         rank = _HandRank.STR8
@@ -1069,7 +1069,7 @@ def is_winning_hand(h1_info, h2_info):
 def e_54():
     result = 0
     f = open(INPUT_DIR + "poker.txt", "r")
-    # f = open(INPUT_DIR + "test.txt", "r")
+    #f = open(INPUT_DIR + "my.test", "r")
     for line in f:
         cards = line.split()
         p1_hand = []
