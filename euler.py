@@ -1235,28 +1235,68 @@ def e_99():
             low_exp = max_exp
             low_exp_base = max_base
             
-        
-        reduc_exp = high_exp - low_exp
         acc = high_exp_base
         flag = False
-        for i in range(0, reduc_exp):
-            acc *= high_exp_base
+        acc = 1
+        
+        try:
+            multiplicand = float(high_exp_base) / low_exp_base
+        except ZeroDivisionError:
+            pass
+        for i in range(0, low_exp-1):
+            acc *= multiplicand
             if (acc > low_exp_base):
                 max_base = high_exp_base
                 max_exp = high_exp
                 if (max_base == curr_base and max_exp == curr_exp):
                     max_line = curr_line
                 flag = True
-                print str(acc) + ":: " + str(max_base) + "^" + str(max_exp)
                 break
+                
+        if (not flag):
+            for i in range(0, high_exp - (low_exp - 1)):
+                acc *= high_exp_base
+                if (acc > low_exp_base):
+                    max_base = high_exp_base
+                    max_exp = high_exp
+                    if (max_base == curr_base and max_exp == curr_exp):
+                        max_line = curr_line
+                    flag = True
+                    break            
+                
         if (not flag):
             max_base = low_exp_base
             max_exp = low_exp
             if (max_base == curr_base and max_exp == curr_exp):
-                max_line = curr_line       
-            print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
+                max_line = curr_line
+                
+    print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
+    
+# ######################################
+import random
+        
+def e_100():
+    curr_line = max_line = max_base = max_exp = max = 0
+    
+    f = open(INPUT_DIR + "test.txt", "r")
+    for line in f:
+        curr_line += 1
+        exp_pair = line.split(",")
+        curr_base = int(exp_pair[0])
+        curr_exp = int(exp_pair[1])
+        if (curr_base**curr_exp > max):
+            max = curr_base**curr_exp
+            max_base = curr_base
+            max_exp = curr_exp
+            max_line = curr_line
     print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
 
+def e_101():
+    f = open(INPUT_DIR + "test.txt", "w")
+    for i in range(1000):
+        print >>f, str(random.randrange(1, 10001)) + ", " + str(random.randrange(1, 10001))    
+    f.close()
+# #######################################    
 def e_125():
     for i in range(2, 10**8):
         if (is_palindrome(str(i))):
