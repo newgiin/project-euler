@@ -1235,8 +1235,8 @@ def e_99():
             low_exp = max_exp
             low_exp_base = max_base
             
-        acc = high_exp_base
         flag = False
+        exps_left = high_exp - (low_exp - 1)
         acc = 1
         
         try:
@@ -1245,6 +1245,10 @@ def e_99():
             pass
         for i in range(0, low_exp-1):
             acc *= multiplicand
+            # prevent float underflow from zero-ing out acc by multiplying up, borrowing some powers
+            if (acc * multiplicand == 0 and i != low_exp-2 and exps_left > 0):
+                acc *= high_exp_base
+                exps_left -= 1
             if (acc > low_exp_base):
                 max_base = high_exp_base
                 max_exp = high_exp
@@ -1254,8 +1258,9 @@ def e_99():
                 break
                 
         if (not flag):
-            for i in range(0, high_exp - (low_exp - 1)):
+            for i in range(0, exps_left):
                 acc *= high_exp_base
+                print str(i) + " "  + str(acc)
                 if (acc > low_exp_base):
                     max_base = high_exp_base
                     max_exp = high_exp
@@ -1263,7 +1268,8 @@ def e_99():
                         max_line = curr_line
                     flag = True
                     break            
-                
+                    
+        # term with lower exponent was bigger
         if (not flag):
             max_base = low_exp_base
             max_exp = low_exp
@@ -1294,7 +1300,7 @@ def e_100():
 def e_101():
     f = open(INPUT_DIR + "test.txt", "w")
     for i in range(1000):
-        print >>f, str(random.randrange(1, 10001)) + ", " + str(random.randrange(1, 10001))    
+        print >>f, str(random.randrange(1, 100001)) + ", " + str(random.randrange(1, 100001))    
     f.close()
 # #######################################    
 def e_125():
