@@ -1210,12 +1210,58 @@ def e_92():
         else:
             lkup_tbl[i] = False
     print total
+
+def e_99():
+    #f = open(INPUT_DIR + "base_exp.txt", "r")
+    f = open(INPUT_DIR + "test.txt", "r")
+    max_line = max_base = max_exp = 0
+    curr_line = 0
+    
+    for line in f:
+        curr_line += 1
+        exp_pair = line.split(",")
+        curr_base = int(exp_pair[0])
+        curr_exp = int(exp_pair[1])
+        high_exp = high_exp_base = low_exp = low_exp_base = 0
+        
+        if (max_exp > curr_exp):
+            high_exp = max_exp
+            high_exp_base = max_base
+            low_exp = curr_exp
+            low_exp_base = curr_base
+        else:
+            high_exp = curr_exp
+            high_exp_base = curr_base
+            low_exp = max_exp
+            low_exp_base = max_base
             
+        
+        reduc_exp = high_exp - low_exp
+        acc = high_exp_base
+        flag = False
+        for i in range(0, reduc_exp):
+            acc *= high_exp_base
+            if (acc > low_exp_base):
+                max_base = high_exp_base
+                max_exp = high_exp
+                if (max_base == curr_base and max_exp == curr_exp):
+                    max_line = curr_line
+                flag = True
+                print str(acc) + ":: " + str(max_base) + "^" + str(max_exp)
+                break
+        if (not flag):
+            max_base = low_exp_base
+            max_exp = low_exp
+            if (max_base == curr_base and max_exp == curr_exp):
+                max_line = curr_line       
+            print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
+    print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
+
 def e_125():
     for i in range(2, 10**8):
         if (is_palindrome(str(i))):
             print i
-
+        
 def main():
     start = time.time()
     e_54()
