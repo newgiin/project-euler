@@ -1084,14 +1084,7 @@ def e_54():
         hand_info_2 = _HandInfo(p2_hand)
         # determine winner
         if (is_winning_hand(hand_info_1, hand_info_2)):
-            print str(p1_hand) + "  |  " + str(p2_hand) + " | " + \
-            print_rank(hand_info_1.rank) + " beat " + \
-                print_rank(hand_info_2.rank) + "\n"
             result += 1
-        else:
-            print str(p1_hand) + "  |  " + str(p2_hand) + \
-                " | " + print_rank(hand_info_1.rank) + \
-                " lost " + print_rank(hand_info_2.rank) + "\n"
     print result
     
 def e_57():
@@ -1218,6 +1211,11 @@ def e_92():
             lkup_tbl[i] = False
     print total
             
+def e_125():
+    for i in range(2, 10**8):
+        if (is_palindrome(str(i))):
+            print i
+
 def main():
     start = time.time()
     e_54()
