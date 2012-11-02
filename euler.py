@@ -1149,6 +1149,20 @@ def e_69():
             print n
     print max_n 
 
+def e_71():
+    arr = []
+    target = float(3) / 7
+    closest = float('infinity')
+    closest_num = closest_denom = 0
+    for denom in range(3, 1000001):
+        num = int(denom * target)
+        diff = target - (float(num) / denom)
+        if (diff < closest and diff != 0):
+            closest = diff
+            closest_num = num
+            closest_denom = denom
+    print str(closest_num) + " / " + str(closest_denom)
+    
 def e_81():
     f = open(INPUT_DIR + "matrix.txt", "r")
     arr = [map(int, line.split(",")) for line in f]
@@ -1231,7 +1245,7 @@ def e_125():
     for i in range(2, 10**8):
         if (is_palindrome(str(i))):
             print i
-        
+    
 def main():
     start = time.time()
     e_99()
