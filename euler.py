@@ -3,127 +3,10 @@ import time
 import fractions
 from decimal import *
 import sys
+import e_util
 
 INPUT_DIR = "in_files/"
-
-# ####################################
-# Misc. functions
-# ####################################
-
-# ------------------------
-# Number crunching
-# ------------------------
-def sieve(n):
-    primes = [2]
-    nums = [True]*n
-    i = 3
-    while (i < n):
-        primes.append(i)
-        sieve = i*i
-        step = 2*i
-        while (sieve < n):
-            nums[sieve] = False
-            sieve += step 
-        # find next unmarked num
-        i += 2
-        while (i < n):
-           if (nums[i]):
-                break 
-           i += 2
-    
-    return primes
-
-def is_prime(x):
-    if (x == 2):
-        return True
-    if (x < 2 or x % 2 == 0):
-        return False
-    for i in range(3, int(math.sqrt(x)+1), 2):
-        if (x % i == 0):
-            return False
-    return True
-    
-def get_factors(x):
-    result = [1]
-    if (x == 1):
-        return result
-
-    root = math.sqrt(x)
-    for i in range(2, int(root)+1):
-        if (x % i == 0):
-            result.append(i)
-            result.append(x/i)
-    result.sort()
-
-    if (root % 1 == 0):
-        result.remove(int(root)) # remove duplicate root 
-
-    return result  
-
-def factorial(n):
-    result = 1
-    for i in range(2, n+1):
-        result *= i
-    return result   
-  
-def get_primeFactors(x):
-    prime_factors = filter(is_prime, get_factors(x))
-    return prime_factors              
-# ------------------------
-# String crunching
-# ------------------------
-def is_perm(x, y):
-    y = str(y)
-    for c in (str(x)):
-        c_index = y.find(str(c))
-        if (c_index == -1):
-            return False
-        y = y[0:c_index] + y[c_index + 1:] 
-    if (len(y) == 0):
-        return True
-    return False
-    
-def get_perms(word):
-    result = []
-    for i in range(0, len(word)):
-        remainder = word[0:i] + word[i+1:]
-        for perm in get_perms(remainder):
-            result.append(word[i] + perm)
-    if (len(word) == 1):
-        result.append(word[0])
-    return result    
-
-def is_perm(a, b):
-    a = str(a)
-    b = str(b)
-    if (len(a) != len(b)):
-        return False
-    for c in a:
-        ind = -1
-        try:
-            ind = b.index(c) 
-        except ValueError:
-            return False
-        b = b[0:ind] + b[ind+1:len(b)] 
-    return True    
-    
-
-def is_palindrome(s):
-    s= str(s)
-    for i in range(0, len(s)/2):
-        if (s[i] != s[len(s)-1-i]):
-            return False
-    return True 
          
-# ------------------------
-
-# ####################################
-# Solutions
-# ####################################
-
-# ----------------
-# 2011 code
-# ----------------
 def e_16():
     print sum([int(c) for c in str(2**1000)])
 
@@ -183,7 +66,7 @@ def e_14():
     print(str(occurence) + " | " + str(maxlength))    
 
 def e_17():
-    print sum([int(x) for x in str(math.factorial(100))])
+    print sum([int(x) for x in str(math.e_util.factorial(100))])
 
 def e_18():
     arr = [
@@ -320,7 +203,7 @@ def e_27():
     for a in range(-999, 1000):
         for b in range(-999, 1000):
             n = 0
-            while (is_prime(n**2 + a*n + b)):
+            while (e_util.is_prime(n**2 + a*n + b)):
                 n += 1
             if (n > max_primes):
                 max_primes = n
@@ -366,11 +249,11 @@ def e_35():
             for c in range(len(n)-2, -1, -1):
                 n[c+1] = n[c];
             n[0] = last;
-            if(is_prime(int("".join(n))) == False):
+            if(e_util.is_prime(int("".join(n))) == False):
                 return False;
         return True;
 
-    primes = sieve(1000000)
+    primes = e_util.sieve(1000000)
 
     # count number of circular primes
     count = 0;
@@ -382,12 +265,12 @@ def e_35():
 def e_36():
     total = 0
     for n in range(1000000):
-        if(is_palindrome(n) and is_palindrome("{0:b}".format(n))):
+        if(e_util.is_palindrome(n) and e_util.is_palindrome("{0:b}".format(n))):
             total += n
     print total
     
 def e_37():
-    primes = sieve(900000)
+    primes = e_util.sieve(900000)
     result = []
     for i in range(4,len(primes)):
         s = str(primes[i])
@@ -443,7 +326,7 @@ def e_41():
                 return False
         return True
     
-    primes = sieve(99999999)
+    primes = e_util.sieve(99999999)
     for i in reversed(primes):
         if(isPanDigital(i)):
             print i
@@ -468,16 +351,16 @@ def e_67():
 # -------------
     
 def e_49():
-    primes = sieve(10000)
+    primes = e_util.sieve(10000)
     for i in range(0, len(primes)-3):
         for j in range(i+1, len(primes)-2): 
-            if (is_perm(primes[i], primes[j])):
+            if (e_util.is_perm(primes[i], primes[j])):
                 diff = primes[j] - primes[i]
                 try:
                     partner = primes.index(primes[j] + diff)
                 except ValueError:
                     partner = -1
-                if (partner != -1 and is_perm(primes[j], primes[partner])):
+                if (partner != -1 and e_util.is_perm(primes[j], primes[partner])):
                     print str(primes[i]) + " " + str(primes[j]) + " " + str(primes[partner])
 
 def e_24():
@@ -501,7 +384,7 @@ def e_29():
 
 def e_34():
     for i in range(3, 99999):
-        total = sum(factorial(int(c)) for c in str(i))
+        total = sum(e_util.factorial(int(c)) for c in str(i))
         if (total == i):
             print i
 
@@ -509,7 +392,7 @@ def e_34():
 def get_abundants(n):
     result = []
     for i in range(2, n):
-        if (sum(get_factors(i)) > i):
+        if (sum(e_util.get_factors(i)) > i):
             result.append(i)
     return result 
 
@@ -565,7 +448,7 @@ def e_52():
         flag = True
         m = 2
         for m in range(2, 7):
-           if (not is_perm(i, i*m)):
+           if (not e_util.is_perm(i, i*m)):
                 flag = False
                 break
         if (flag):
@@ -627,7 +510,7 @@ def e_32():
                 continue
 
             prod = a*b
-            if (is_perm(a_s + b_s + str(prod), "123456789")): 
+            if (e_util.is_perm(a_s + b_s + str(prod), "123456789")): 
                 result.add(prod)
     print sum(result)
  
@@ -635,7 +518,7 @@ def e_53():
     total = 0
     for n in range(23, 101):
         for r in range(2, n):
-            combos = factorial(n) / (factorial(r)*factorial(n-r))
+            combos = e_util.factorial(n) / (e_util.factorial(r)*e_util.factorial(n-r))
             if (combos > 1000000):
                 total += 1
     print total 
@@ -658,7 +541,7 @@ def e_38():
         while (len(ct_prd) < 9):
             ct_prd += str(i*m)
             m += 1
-        if (is_perm(ct_prd, "123456789") and int(ct_prd) > max):
+        if (e_util.is_perm(ct_prd, "123456789") and int(ct_prd) > max):
             max = int(ct_prd)
     print max    
 
@@ -669,7 +552,7 @@ def e_55():
         is_lychrel = True
         for iterations in range(0, 50):
             sum = curr + int((str(curr)[::-1]))
-            if (is_palindrome(str(sum))):
+            if (e_util.is_palindrome(str(sum))):
                 is_lychrel = False
                 break
             curr = sum
@@ -680,8 +563,8 @@ def e_55():
 def e_50():
     max = 0
     max_sum = 0
-    primes = sieve(5000)
-    prime_set = set(sieve(1000000))
+    primes = e_util.sieve(5000)
+    prime_set = set(e_util.sieve(1000000))
     for i in range(0, len(primes)):
         sum = primes[i]
         seq_len = 1
@@ -731,7 +614,7 @@ def e_42():
             result += 1
     print result 
 
-def is_sumPrimeAndDouble(x, primes=sieve(1000000)):
+def is_sumPrimeAndDouble(x, primes=e_util.sieve(1000000)):
     p = primes[0]
     i = 0
     while (p < x): 
@@ -748,9 +631,9 @@ def is_sumPrimeAndDouble(x, primes=sieve(1000000)):
 
 def e_46():
     i = 9
-    primes = sieve(10000)
+    primes = e_util.sieve(10000)
     while (True):
-        if (not is_prime(i) and not is_sumPrimeAndDouble(i, primes)):
+        if (not e_util.is_prime(i) and not is_sumPrimeAndDouble(i, primes)):
             print i
             return  
         i += 2
@@ -760,10 +643,10 @@ def e_47():
     T = 4 # find first T consecutive integers with T distinct factors
     i_processed = False # optimization to avoid getting prime factors twice
     while (True):
-        if (i_processed or len(get_primeFactors(i)) >= T):
+        if (i_processed or len(e_util.get_prime_factors(i)) >= T):
             seq_len = 1
             for j in reversed(range(1,T)): 
-                if (len(get_primeFactors(i+j)) >= T):
+                if (len(e_util.get_prime_factors(i+j)) >= T):
                     seq_len += 1
                 else:
                     break
@@ -781,7 +664,7 @@ def e_47():
 
 def e_43():
     sum = 0
-    primes = sieve(18)
+    primes = e_util.sieve(18)
     for p in get_perms("0123456789"):
         flag = True
         for i in range(1, 8):
@@ -1107,7 +990,7 @@ def e_58():
     while (True):
         for _ in range(4):
             i += skip + 1
-            if (is_prime(i)):
+            if (e_util.is_prime(i)):
                 p += 1
         diags += 4
         if (float(p) / diags < .10):
@@ -1115,6 +998,16 @@ def e_58():
             return
         skip += 2
 
+def e_62():
+    i = 123
+    while (true):
+        if (math.pow(i, 1/3) % 1 == 0):
+            pass
+        for perm in get_perms(str(i)):
+            perm = int(perm)
+            if (math.pow(perm, 1/3) % 1 == 0):
+                pass
+        
 def totient(n):
     if (n == 2):
         return 1
@@ -1243,12 +1136,12 @@ def e_99():
     
 def e_125():
     for i in range(2, 10**8):
-        if (is_palindrome(str(i))):
+        if (e_util.is_palindrome(str(i))):
             print i
     
 def main():
     start = time.time()
-    e_99()
+    print len(get_perms("mississippi"))
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
