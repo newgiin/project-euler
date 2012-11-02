@@ -1212,97 +1212,21 @@ def e_92():
     print total
 
 def e_99():
-    #f = open(INPUT_DIR + "base_exp.txt", "r")
-    f = open(INPUT_DIR + "test.txt", "r")
-    max_line = max_base = max_exp = 0
-    curr_line = 0
+    curr_line = max_line = max_base = max_exp = 0
     
+    f = open(INPUT_DIR + "base_exp.txt", "r")
     for line in f:
         curr_line += 1
         exp_pair = line.split(",")
         curr_base = int(exp_pair[0])
         curr_exp = int(exp_pair[1])
-        high_exp = high_exp_base = low_exp = low_exp_base = 0
         
-        if (max_exp > curr_exp):
-            high_exp = max_exp
-            high_exp_base = max_base
-            low_exp = curr_exp
-            low_exp_base = curr_base
-        else:
-            high_exp = curr_exp
-            high_exp_base = curr_base
-            low_exp = max_exp
-            low_exp_base = max_base
-            
-        flag = False
-        exps_left = high_exp - (low_exp - 1)
-        acc = 1
-        
-        try:
-            multiplicand = float(high_exp_base) / low_exp_base
-        except ZeroDivisionError:
-            pass
-        for i in range(0, low_exp-1):
-            acc *= multiplicand
-            # prevent float underflow from zero-ing out acc by multiplying up, borrowing some powers
-            if (acc * multiplicand == 0 and i != low_exp-2 and exps_left > 0):
-                acc *= high_exp_base
-                exps_left -= 1
-            if (acc > low_exp_base):
-                max_base = high_exp_base
-                max_exp = high_exp
-                if (max_base == curr_base and max_exp == curr_exp):
-                    max_line = curr_line
-                flag = True
-                break
-                
-        if (not flag):
-            for i in range(0, exps_left):
-                acc *= high_exp_base
-                print str(i) + " "  + str(acc)
-                if (acc > low_exp_base):
-                    max_base = high_exp_base
-                    max_exp = high_exp
-                    if (max_base == curr_base and max_exp == curr_exp):
-                        max_line = curr_line
-                    flag = True
-                    break            
-                    
-        # term with lower exponent was bigger
-        if (not flag):
-            max_base = low_exp_base
-            max_exp = low_exp
-            if (max_base == curr_base and max_exp == curr_exp):
-                max_line = curr_line
-                
-    print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
-    
-# ######################################
-import random
-        
-def e_100():
-    curr_line = max_line = max_base = max_exp = max = 0
-    
-    f = open(INPUT_DIR + "test.txt", "r")
-    for line in f:
-        curr_line += 1
-        exp_pair = line.split(",")
-        curr_base = int(exp_pair[0])
-        curr_exp = int(exp_pair[1])
-        if (curr_base**curr_exp > max):
-            max = curr_base**curr_exp
+        if (curr_base > max_base**(float(max_exp) / curr_exp)):
             max_base = curr_base
             max_exp = curr_exp
             max_line = curr_line
-    print str(max_line) + ": " + str(max_base) + "^" + str(max_exp)
-
-def e_101():
-    f = open(INPUT_DIR + "test.txt", "w")
-    for i in range(1000):
-        print >>f, str(random.randrange(1, 100001)) + ", " + str(random.randrange(1, 100001))    
-    f.close()
-# #######################################    
+    print str(max_line)
+    
 def e_125():
     for i in range(2, 10**8):
         if (is_palindrome(str(i))):
@@ -1310,7 +1234,7 @@ def e_125():
         
 def main():
     start = time.time()
-    e_54()
+    e_99()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
