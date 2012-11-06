@@ -361,7 +361,7 @@ def e_49():
                 except ValueError:
                     partner = -1
                 if (partner != -1 and e_util.is_perm(primes[j], primes[partner])):
-                    print str(primes[i]) + " " + str(primes[j]) + " " + str(primes[partner])
+                    print primes[i], primes[j], primes[partner]
 
 def e_24():
     perms = get_perms("0123456789")
@@ -998,15 +998,21 @@ def e_58():
             return
         skip += 2
 
+# TODO
 def e_62():
-    i = 123
-    while (true):
-        if (math.pow(i, 1/3) % 1 == 0):
-            pass
-        for perm in get_perms(str(i)):
-            perm = int(perm)
-            if (math.pow(perm, 1/3) % 1 == 0):
-                pass
+    i = 1000000
+    while (True):
+        print round(math.pow(i, 1.0 / 3), 10)
+        if (round(math.pow(i, 1.0 / 3), 10) % 1 == 0):
+            cubes = 0 # not 1 since it will be incremented in the following loop
+            for perm in e_util.get_perms(str(i)):
+                perm = int(perm)
+                if (round(math.pow(perm, 1.0 / 3), 10) % 1 == 0):
+                    cubes += 1
+            if (cubes == 3):
+                print i
+                return
+        i += 1
         
 def totient(n):
     if (n == 2):
@@ -1054,7 +1060,7 @@ def e_71():
             closest = diff
             closest_num = num
             closest_denom = denom
-    print str(closest_num) + " / " + str(closest_denom)
+    print closest_num, "/" , closest_denom
     
 def e_81():
     f = open(INPUT_DIR + "matrix.txt", "r")
