@@ -998,21 +998,31 @@ def e_58():
             return
         skip += 2
 
-# TODO
 def e_62():
-    i = 1000000
+    P = 5
+    i = 5
+    cubed = i**3
+    num_digits = len(str(cubed))
+    cubes = []
+
     while (True):
-        print round(math.pow(i, 1.0 / 3), 10)
-        if (round(math.pow(i, 1.0 / 3), 10) % 1 == 0):
-            cubes = 0 # not 1 since it will be incremented in the following loop
-            for perm in e_util.get_perms(str(i)):
-                perm = int(perm)
-                if (round(math.pow(perm, 1.0 / 3), 10) % 1 == 0):
-                    cubes += 1
-            if (cubes == 3):
-                print i
+        # cache cubes with num_digits
+        while (len(str(cubed)) == num_digits):
+            cubes.append(cubed)
+            i += 1
+            cubed = i**3
+        
+        for j in range(len(cubes) - P + 1):
+            cube_perms = 1
+            for k in range(j+1, len(cubes)):
+                if (e_util.is_perm(str(cubes[j]), str(cubes[k]))):
+                    cube_perms += 1
+            if (cube_perms == P):
+                print cubes[j]
                 return
-        i += 1
+                
+        num_digits = len(str(cubed))
+        cubes = []
         
 def totient(n):
     if (n == 2):
@@ -1147,7 +1157,7 @@ def e_125():
     
 def main():
     start = time.time()
-    print len(get_perms("mississippi"))
+    e_62()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
