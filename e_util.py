@@ -62,9 +62,10 @@ def get_prime_factors(x):
 # String crunching
 # ------------------------
 def is_perm(x, y):
-    y = str(y)
-    for c in (str(x)):
-        c_index = y.find(str(c))
+    if (len(x) != len(y)):
+        return False
+    for c in x:
+        c_index = y.find(c)
         if (c_index == -1):
             return False
         y = y[0:c_index] + y[c_index + 1:] 
@@ -84,22 +85,7 @@ def get_perms(word):
                 result.append(word[i] + perm)
     if (len(word) == 1):
         result.append(word[0])
-    return result    
-
-def is_perm(a, b):
-    a = str(a)
-    b = str(b)
-    if (len(a) != len(b)):
-        return False
-    for c in a:
-        ind = -1
-        try:
-            ind = b.index(c) 
-        except ValueError:
-            return False
-        b = b[0:ind] + b[ind+1:len(b)] 
-    return True    
-    
+    return result   
 
 def is_palindrome(s):
     s= str(s)

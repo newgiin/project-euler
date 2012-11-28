@@ -354,17 +354,17 @@ def e_49():
     primes = e_util.sieve(10000)
     for i in range(0, len(primes)-3):
         for j in range(i+1, len(primes)-2): 
-            if (e_util.is_perm(primes[i], primes[j])):
+            if (e_util.is_perm(str(primes[i]), str(primes[j]))):
                 diff = primes[j] - primes[i]
                 try:
                     partner = primes.index(primes[j] + diff)
                 except ValueError:
                     partner = -1
-                if (partner != -1 and e_util.is_perm(primes[j], primes[partner])):
+                if (partner != -1 and e_util.is_perm(str(primes[j]), str(primes[partner]))):
                     print primes[i], primes[j], primes[partner]
 
 def e_24():
-    perms = get_perms("0123456789")
+    perms = e_util.get_perms("0123456789")
     print perms[999999]
 
 def e_30():
@@ -448,7 +448,7 @@ def e_52():
         flag = True
         m = 2
         for m in range(2, 7):
-           if (not e_util.is_perm(i, i*m)):
+           if (not e_util.is_perm(str(i), str(i*m))):
                 flag = False
                 break
         if (flag):
@@ -665,7 +665,7 @@ def e_47():
 def e_43():
     sum = 0
     primes = e_util.sieve(18)
-    for p in get_perms("0123456789"):
+    for p in e_util.get_perms("0123456789"):
         flag = True
         for i in range(1, 8):
             if (int(p[i:i+3]) % primes[i-1] != 0):
@@ -736,11 +736,9 @@ def get_combos(alphabet, k):
             result.append(alphabet[i] + c)    
     return result
 
-def has_english(filename):
+def has_english(filename, threshold=9):
     file = open(filename, "r")
     vocab = set(['the', 'The','and', 'you', 'there', 'have', 'that', 'from'])
-    #vocab = ['the']
-    threshold = 9
     found = 0
     for line in file:
         for word in line.split():
@@ -781,7 +779,7 @@ def e_59():
         for _ in range(0, key_len):
             all_letters += chr(c)
     for combo in get_combos(all_letters, key_len):
-        for key in get_perms(combo):
+        for key in e_util.get_perms(combo):
             decrypt(cipher, key, outname)
             if (has_english(outname)):
                 print key
