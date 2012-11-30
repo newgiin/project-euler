@@ -442,6 +442,29 @@ def e_45():
        tri = n*(n+1)/2
     print tri 
 
+def get_patterns_helper(s, num_wilds):
+    if (num_wilds == 0):
+        return [s]
+    patterns = []
+    for j in range(0, len(s) - (num_wilds - 1)): # for every position the first wildcard can be in
+        for p in get_patterns_helper(s[j + 1:len(s)], num_wilds - 1):
+            patterns.append(s[0:j] + "*" + p)
+    return patterns
+
+def get_patterns(s):
+    patterns = []
+    for i in range(1, len(s)): # for every possible number of wildcards
+        for p in get_patterns_helper(s, i):
+            patterns.append(p)
+    return patterns
+
+# TODO    
+def e_51():
+    primes = e_util.sieve(100)
+    for p in primes:
+        for pattern in get_patterns(str(p)):
+            
+            
 def e_52():
     i = 10
     while (True):
