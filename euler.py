@@ -442,6 +442,43 @@ def e_45():
        tri = n*(n+1)/2
     print tri 
 
+def gen_patterns_helper(digits, wilds_used, wilds_left):
+        result = []
+        if (digits == 1):
+            if (wilds_used != 0):
+                for i in range(1, 10, 2):
+                    result.append(str(i))
+            if (wilds_left != 0):
+                result.append("*")
+        else:
+            for i in range(10):
+                for p in gen_patterns_helper(digits - 1, wilds_used, wilds_left):
+                    if ("*" not in p and wilds_used == 0):
+                        pass
+                    else:
+                        result.append(str(i) + p)
+            if (wilds_left != 0):
+                for p in gen_patterns_helper(digits - 1, wilds_used + 1, wilds_left - 1):
+                    wild_count = 0
+                    for c in p:
+                        if (c == "*"):
+                            wild_count += 1
+                    if (wild_count < wilds_left):
+                        result.append("*" + p)
+            
+        return result
+
+def gen_patterns(digits):
+    if (digits == 1):
+        return ["*"]
+    result = []
+    for i in range(1, 10):
+        for p in gen_patterns_helper(digits - 1, 0, digits - 1):
+            result.append(str(i) + p)
+    for p in gen_patterns_helper(digits - 1, 1, digits - 2):
+        result.append("*" + p)            
+    return result
+
 def get_patterns_helper(s, num_wilds):
     if (num_wilds == 0):
         return [s]
@@ -457,14 +494,38 @@ def get_patterns(s):
         for p in get_patterns_helper(s, i):
             patterns.append(p)
     return patterns
-
+# ------------------------------------------
+def get_patterns(s):
+    result = []
+    char_count = {}
+    for c in s:
+        if (c not in char_count):
+            char_count[c] = 1
+        else:
+            char_count[c] += 1
+            
+    for key in char_count:
+        for i in range(1, char_count[key] + 1): # for every possible number of wildcards
+            for perm in e_util.get_perms(key * (char_count[key] - i) + "*" * i):
+                pattern = ""
+                j = 0
+                for c in s:
+                    if (c == key):
+                        pattern += perm[j]
+                        j += 1
+                    else:
+                        pattern += c
+                result.append(pattern)
+    return result     
 # TODO    
 def e_51():
-    primes = e_util.sieve(100)
-    for p in primes:
-        for pattern in get_patterns(str(p)):
-            
-            
+    # primes = e_util.sieve(1000)
+    # mem = {}
+    # for prime in e_util.seive(10000):
+        # for p in get_patterns(str(prime)):
+    for p in get_patterns("1234567891234567890"):
+        print p
+        
 def e_52():
     i = 10
     while (True):
@@ -1178,7 +1239,7 @@ def e_125():
     
 def main():
     start = time.time()
-    e_62()
+    e_51()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
