@@ -442,6 +442,10 @@ def e_45():
        tri = n*(n+1)/2
     print tri 
 
+""" 
+    Given a string, return a list of patterns where each pattern replaces 
+    occurences of a unique character with one or more asterisks.
+"""
 def get_patterns(s):
     result = []
     char_count = {}
@@ -470,13 +474,18 @@ def get_patterns(s):
 
 def e_51():
     mem = {}
+    num_digits = 0
     family_target = 8
     for prime in e_util.sieve(1000000):
-        for pattern in get_patterns(str(prime)):
+        prime_str = str(prime)
+        if (len(prime_str) > num_digits):
+            mem = {}
+            num_digits = len(prime_str)
+        for pattern in get_patterns(prime_str):
             if pattern in mem:
                 mem[pattern] += 1
                 if (mem[pattern] == family_target):
-                    print pattern + " " + str(prime)
+                    print pattern + " " + prime_str
                     return
             else:
                 mem[pattern] = 1
