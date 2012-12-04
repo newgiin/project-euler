@@ -765,16 +765,6 @@ def e_63():
         digits += 1
     print count
 
-def get_combos(alphabet, k):
-    result = []
-    if (k == 1):
-        return list(alphabet)
-    for i in range(0, len(alphabet)-k+1):
-        remainder = alphabet[i+1:len(alphabet)]
-        for c in get_combos(remainder, k-1):
-            result.append(alphabet[i] + c)    
-    return result
-
 def has_english(filename, threshold=9):
     file = open(filename, "r")
     vocab = set(['the', 'The','and', 'you', 'there', 'have', 'that', 'from'])
@@ -808,24 +798,22 @@ def decrypt(cipher, key, outname=None):
     f.close()
 
 def e_59():
-    cipher = "cipher1.txt"
+    cipher = INPUT_DIR + "cipher1.txt"
     outname = "decrypted.out"
     all_letters = ""
     done = False
     key_len = 3
 
     for c in range(97, 97+26):
-        for _ in range(0, key_len):
+        for _ in range(0, key_len): # include keys with repeating characters, e.g. 'aaa'
             all_letters += chr(c)
-    for combo in get_combos(all_letters, key_len):
+    for combo in e_util.get_combos(all_letters, key_len):
         for key in e_util.get_perms(combo):
             decrypt(cipher, key, outname)
             if (has_english(outname)):
                 print key
-                done = True
-                break 
-        if (done):
-            return
+                return
+                
     print "FAILED"
 
 """ Container for find_repeat_vals result """

@@ -93,3 +93,14 @@ def is_palindrome(s):
         if (s[i] != s[len(s)-1-i]):
             return False
     return True 
+
+""" Returns a list of all possible 'n'-character combinations of the symbols in 'alphabet'. """    
+def get_combos(alphabet, n):
+    result = []
+    if (n == 1):
+        return list(alphabet)
+    for i in range(0, len(alphabet)-n+1):
+        remainder = alphabet[i+1:len(alphabet)]
+        for c in get_combos(remainder, n-1):
+            result.append(alphabet[i] + c)    
+    return result    
