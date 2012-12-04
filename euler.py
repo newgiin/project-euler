@@ -1003,14 +1003,18 @@ def e_54():
         if (is_winning_hand(hand_info_1, hand_info_2)):
             result += 1
     print result
-    
+
+""" 
+    'acc' represents the fraction we add to 1 to calculate sqrt(2). With each iteration, we can see that
+    the acc for the next iteration is simply 1 / (2 + previous_acc).
+"""
 def e_57():
     result = 0
     acc = fractions.Fraction(1, 2)
     for i in range(1, 1000):
         acc = 2 + acc
         acc = fractions.Fraction(acc.denominator, acc.numerator) # 1 / acc
-        sqrt_2 = acc + 1
+        sqrt_2 = 1 + acc
         if (len(str(sqrt_2.numerator)) > len(str(sqrt_2.denominator))):
             result += 1
     print result
@@ -1080,6 +1084,30 @@ def totient(n):
                 result += 1
                 
     return result*2
+
+"""
+    Recursion terminates by either returning a 1 or a multiple of two depending on which level
+    of convergence it's on.
+"""
+def converge_e_helper(acc, curr_level, target):
+    if (curr_level % 3 == 0):
+        if (curr_level == target):
+            return acc
+        else:
+            return acc + fractions.Fraction(1, converge_e_helper(acc + 2, curr_level + 1, target))
+    else:
+        if (curr_level == target):
+            return 1
+        else:
+            return 1 + fractions.Fraction(1, converge_e_helper(acc, curr_level + 1, target))
+    
+def converge_e(level):
+    if (level <= 1):
+        return fractions.Fraction(2, 1)
+    return fractions.Fraction(2, 1) + fractions.Fraction(1, converge_e_helper(2, 2, level))
+    
+def e_65():
+    print sum(map(int, list(str(converge_e(100).numerator))))
 
 def e_69():
     max = 0
