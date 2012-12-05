@@ -1120,8 +1120,11 @@ def e_69():
             print n
     print max_n 
 
+"""" 
+    Determine closest we can get to 3/7 for each denominator by solving for numerator 
+    in 'num / denom = 3 / 7'.
+"""
 def e_71():
-    arr = []
     target = float(3) / 7
     closest = float('infinity')
     closest_num = closest_denom = 0
@@ -1133,6 +1136,23 @@ def e_71():
             closest_num = num
             closest_denom = denom
     print closest_num, "/" , closest_denom
+
+"""" Same idea as e_71() """
+def e_73():
+    result = 0
+    d = 12000
+    left_bound = float(1) / 3
+    right_bound = float(1) / 2
+    for denom in range(4, d+1):
+        left_num = denom * left_bound
+        right_num = denom * right_bound
+        left_num = left_num + 1 if (left_num % 1 == 0) else math.ceil(left_num)
+        right_num = right_num - 1 if (right_num % 1 == 0) else math.floor(right_num)
+        
+        for num in range(int(left_num), int(right_num)+1):
+            if (fractions.gcd(num, denom) == 1):
+                result += 1
+    print result
     
 def e_81():
     f = open(INPUT_DIR + "matrix.txt", "r")
