@@ -1144,16 +1144,29 @@ def e_73():
     left_bound = float(1) / 3
     right_bound = float(1) / 2
     for denom in range(4, d+1):
-        left_num = denom * left_bound
-        right_num = denom * right_bound
-        left_num = left_num + 1 if (left_num % 1 == 0) else math.ceil(left_num)
-        right_num = right_num - 1 if (right_num % 1 == 0) else math.floor(right_num)
+        left_num = math.floor(denom * left_bound) + 1
+        right_num = math.ceil(denom * right_bound) - 1
         
         for num in range(int(left_num), int(right_num)+1):
             if (fractions.gcd(num, denom) == 1):
                 result += 1
     print result
     
+def e_74():
+    target = 60
+    result = 0
+    for i in range(69, 1000000):
+        chain = set([i])
+        fact_sum = sum(map(math.factorial, map(int, str(i))))
+        while (fact_sum not in chain):
+            chain.add(fact_sum)
+            if (len(chain) > target):
+                break            
+            fact_sum = sum(map(math.factorial, map(int, str(fact_sum))))
+        if (len(chain) == target):
+            result += 1
+    print result
+        
 def e_81():
     f = open(INPUT_DIR + "matrix.txt", "r")
     arr = [map(int, line.split(",")) for line in f]
@@ -1232,6 +1245,74 @@ def e_99():
             max_line = curr_line
     print str(max_line)
     
+def is_bouncy(x):
+    is_inc = is_dec = True
+    x = str(x)
+    for i in range(0, len(x) - 1):
+        if (x[i] < x[i+1]):
+            is_dec = False
+        if (x[i] > x[i+1]):
+            is_inc = False
+        if (not (is_inc or is_dec)):
+            return True
+    return not (is_inc or is_dec)
+        
+def e_112():
+    total_bouncy = 0
+    i = 1
+    digits2mem = 5 # Limits lookup table size. Best speedup at 5.
+    max_lkup_size = 10**digits2mem
+    mem = set()
+
+    while (i < max_lkup_size):
+        i_str = str(i)
+        # Bouncy numbers within a number means the whole number is bouncy
+        if (is_bouncy(i)):
+            total_bouncy += 1
+            mem.add(str(i))
+        if (float(total_bouncy) / i == .99):
+            print i
+            return
+        i += 1
+    
+    # Memoize numbers containing <= 'digits2mem' digits.
+    while (True):
+        i_str = str(i)
+        # Bouncy numbers within a number means the whole number is bouncy
+        if (i_str[len(i_str) - digits2mem:] in mem or is_bouncy(i)):
+            total_bouncy += 1
+        if (float(total_bouncy) / i == .99):
+            print i
+            return
+        i += 1
+        
+#TODO
+def e_113():
+    result = 0
+    i = 1
+    digits2mem = 6
+    max_lkup_size = 10**digits2mem
+    mem = set()
+    
+    # Memoize numbers containing <= 'digits2mem' digits.
+    while (i < max_lkup_size):
+        i_str = str(i)
+        if (i_str[len(i_str) - digits2mem:] in mem or is_bouncy(i)):
+            mem.add(str(i))
+        else:
+            result += 1
+        i += 1
+    
+    while (i < 10**8):
+        i_str = str(i)
+        # Bouncy numbers within a number means the whole number is bouncy
+        if (i_str[len(i_str) - digits2mem:] not in mem and not is_bouncy(i)):
+            result += 1   
+        i += 1
+        
+    print result
+
+# TODO    
 def e_125():
     for i in range(2, 10**8):
         if (e_util.is_palindrome(str(i))):
@@ -1239,7 +1320,11 @@ def e_125():
     
 def main():
     start = time.time()
-    e_51()
+    i = 0
+    c = (10**9) / 13
+    while (i < (10**9) / 13):
+        x = 1 + 1
+        i += 1
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
