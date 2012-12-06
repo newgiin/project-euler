@@ -5,7 +5,7 @@ from decimal import *
 import sys
 import e_util
 
-INPUT_DIR = "in_files/"
+INPUT_DIR = "in_files / "
          
 def e_16():
     print sum([int(c) for c in str(2**1000)])
@@ -16,7 +16,7 @@ def e_13():
     # 2d array holding last 10 digits per line
     # must do it this way since Python has no easy way to make 2d arrays
     arr = [[],[],[],[],[],[],[],[],[],[]]
-    while(line):
+    while line:
         arr[0].append(int(line[49]))
         arr[1].append(int(line[48]))
         arr[2].append(int(line[47]))
@@ -35,32 +35,32 @@ def e_13():
         sum = carry
         for digit in arr[place]:
             sum += digit
-        ones = sum%10
+        ones = sum % 10
         result = str(ones) + result
-        carry = int((sum - ones)/10)
+        carry = int((sum - ones) / 10)
     print result
 
 def e_14():
     occurence = 0
     maxlength = 0
-    memoi = [0]*1000000
+    memoi = [0] * 1000000
     for curr in xrange(1000000):
         length = 1
         n = curr
-        if(memoi[n] != 0):
+        if memoi[n] != 0:
             length = memoi[n]
         else:
-            while(n > 1):
-                if(n < 1000000 and memoi[n] != 0):
+            while n > 1:
+                if n < 1000000 and memoi[n] != 0:
                     length += memoi[n]
                     break
-                if(n%2 == 0):
-                    n =int(n/2)
+                if n % 2 == 0:
+                    n = int(n / 2)
                 else:
-                    n = 3*n + 1
+                    n = 3 * n + 1
                 length += 1
         memoi[curr] = length
-        if(length > maxlength):
+        if length > maxlength:
             maxlength = length
             occurence = curr
     print(str(occurence) + " | " + str(maxlength))    
@@ -87,41 +87,41 @@ def e_18():
     [04, 62, 98, 27, 23, 9, 70, 98, 73, 93, 38, 53, 60, 04, 23]]
 
     for row in range(1, len(arr)):
-        arr[row][0] += arr[row-1][0]
-        for i in range(1, len(arr[row])-1):
-            if(arr[row-1][i-1] > arr[row-1][i]):
-                arr[row][i] += arr[row-1][i-1]
+        arr[row][0] += arr[row - 1][0]
+        for i in range(1, len(arr[row]) - 1):
+            if arr[row - 1][i - 1] > arr[row - 1][i]:
+                arr[row][i] += arr[row - 1][i - 1]
             else:
-                arr[row][i] += arr[row-1][i]
-        arr[row][len(arr[row])-1] += arr[row-1][len(arr[row-1])-1]
-    print max(arr[len(arr)-1])      
+                arr[row][i] += arr[row - 1][i]
+        arr[row][len(arr[row]) - 1] += arr[row - 1][len(arr[row - 1]) - 1]
+    print max(arr[len(arr) - 1])      
     
 def e_19():
-    SUN = 1; MON = 2;TUE = 3;WED  =4; THU = 5; FRI = 6; SAT = 7; 
+    SUN = 1; MON = 2;TUE = 3;WED  = 4; THU = 5; FRI = 6; SAT = 7; 
     year = 1901
     month = 1
     day = TUE
 
     sum = 0
-    while(year < 2001):
+    while year < 2001:
         month = 1
-        while(month <= 12):
-            if(month == 9 or month == 4 or month == 6 or month == 11):
+        while month <= 12:
+            if month == 9 or month == 4 or month == 6 or month == 11:
                 day += 1
-                if(day > SAT):
+                if day > SAT:
                     day = SUN
-            elif(month == 2):
+            elif month == 2:
                 day -= 1
-                if(day < SUN):
+                if day < SUN:
                     day = SAT
             else:
-                if(day == SAT):
+                if day == SAT:
                     day = MON
-                elif(day == FRI):
+                elif day == FRI:
                     day = SUN
                 else:
                     day += 2
-            if(day == SUN):
+            if day == SUN:
                 sum += 1
             month += 1
         year += 1
@@ -130,10 +130,10 @@ def e_19():
     
 def sumDivisors(n):
     sum = 0;
-    for i in range(1, int(math.sqrt(n))+1):
-        if(n%i == 0):
+    for i in range(1, int(math.sqrt(n)) + 1):
+        if n % i == 0:
             sum += i;
-            sum += n/i;
+            sum += n / i;
     return sum;
         
 def e_21():
@@ -143,10 +143,10 @@ def e_21():
     for i in range(n):
         if i not in visited:
             d = sumDivisors(i);
-            if(sumDivisors(d) == i and d != i):
+            if sumDivisors(d) == i and d != i:
                 result += i;
                 visited.append(i);
-                if(d < n):
+                if d < n:
                     result += d;
                     visited.append(d);
     print result;
@@ -155,8 +155,8 @@ def e_25():
     first = 0
     sec = 1
     n = 1
-    while(len(str(sec)) < 1000):
-    #while(n < 20):
+    while len(str(sec)) < 1000:
+    #while n < 20:
         temp = first
         first = sec
         sec += temp
@@ -166,16 +166,16 @@ def e_25():
 def findMaxRecur(s):
     result = ""
     # do that binary split magic!
-    rightLimit = int(len(s)/2)
-    while(rightLimit > 0):
-        for start in range(len(s)-rightLimit*2+1):
-            substring = s[start:rightLimit+start]
-            if(substring == s[rightLimit+start:rightLimit+start+len(substring)]):
+    rightLimit = int(len(s) / 2)
+    while rightLimit > 0:
+        for start in range(len(s) - rightLimit * 2 + 1):
+            substring = s[start : rightLimit + start]
+            if substring == s[rightLimit + start : rightLimit + start + len(substring)]:
                 # if 's' contains substring sufficient number of times, 
                 # with some leeway at head and tail
-                if(s.count(substring) > int(len(s)/len(substring))-5):
+                if s.count(substring) > int(len(s) / len(substring)) - 5:
                     subresult = findMaxRecur(substring)
-                    if(len(subresult) > 0):
+                    if len(subresult) > 0:
                         return subresult
                     else:
                         return substring
@@ -188,9 +188,9 @@ def e_26():
     max_str = ""
     start = time.time()
     for d in range(3,1000):
-        dec = str(Decimal(1)/Decimal(d)).split(".")[1]
+        dec = str(Decimal(1) / Decimal(d)).split(".")[1]
         recurrer = findMaxRecur(dec)
-        if(len(max_str) < len(recurrer)):
+        if len(max_str) < len(recurrer):
             max_d = d
             max_str = recurrer
         
@@ -200,24 +200,24 @@ def e_27():
     max_primes = 0
     max_a = 0
     max_b = 0
-    for a in range(-999, 1000):
-        for b in range(-999, 1000):
+    for a in range( - 999, 1000):
+        for b in range( - 999, 1000):
             n = 0
-            while (e_util.is_prime(n**2 + a*n + b)):
+            while e_util.is_prime(n**2 + a * n + b):
                 n += 1
-            if (n > max_primes):
+            if n > max_primes:
                 max_primes = n
                 max_a = a
                 max_b = b
-    print max_a*max_b
+    print max_a * max_b
     
 def e_28():
     spiralSize = 3
     curr = 1
     result = 1
-    while(spiralSize <= 1001):
+    while spiralSize <= 1001:
         for i in range(4):
-            curr += spiralSize-1
+            curr += spiralSize - 1
             result += curr
         spiralSize += 2
     print result
@@ -226,14 +226,14 @@ def e_31():
     denoms = [1,2,5,10,20,50,100,200]
 
     def combo_recurr(n, maxDenom):
-        if(maxDenom == 1):
+        if maxDenom == 1:
             return 1
         remainder = n - maxDenom
-        if(remainder == 0):
-            return 1 + combo_recurr(n,denoms[denoms.index(maxDenom)-1])
-        if(remainder < 0):
-            return combo_recurr(n, denoms[denoms.index(maxDenom)-1])
-        return combo_recurr(remainder, maxDenom)+combo_recurr(n, denoms[denoms.index(maxDenom)-1])
+        if remainder == 0:
+            return 1 + combo_recurr(n,denoms[denoms.index(maxDenom) - 1])
+        if remainder < 0:
+            return combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
+        return combo_recurr(remainder, maxDenom) + combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
     
     def combos(n):
         return combo_recurr(n,200)
@@ -244,12 +244,12 @@ def e_31():
 def e_35():
     def isCircular(n):
         n = list(str(n));
-        for i in range(len(n)-1):
-            last = n[len(n)-1]
-            for c in range(len(n)-2, -1, -1):
-                n[c+1] = n[c];
+        for i in range(len(n) - 1):
+            last = n[len(n) - 1]
+            for c in range(len(n) - 2, -1, -1):
+                n[c + 1] = n[c];
             n[0] = last;
-            if(e_util.is_prime(int("".join(n))) == False):
+            if e_util.is_prime(int("".join(n))) == False:
                 return False;
         return True;
 
@@ -258,14 +258,14 @@ def e_35():
     # count number of circular primes
     count = 0;
     for i in range(len(primes)):
-        if(isCircular(primes[i])):
+        if isCircular(primes[i]):
             count += 1;
     print count;
     
 def e_36():
     total = 0
     for n in range(1000000):
-        if(e_util.is_palindrome(n) and e_util.is_palindrome("{0:b}".format(n))):
+        if e_util.is_palindrome(n) and e_util.is_palindrome("{0:b}".format(n)):
             total += n
     print total
     
@@ -276,20 +276,20 @@ def e_37():
         s = str(primes[i])
         # remove from right to left
         truncable = True
-        while(len(s) > 1):
-            s = s[0:len(s)-1]
-            if(int(s) not in primes):
+        while len(s) > 1:
+            s = s[0 : len(s) - 1]
+            if int(s) not in primes:
                 truncable = False
                 break
-        if(truncable):
+        if truncable:
             # from left to right
             s = str(primes[i])
-            while(len(s) > 1):
-                s = s[1:len(s)]
-                if(int(s) not in primes):
+            while len(s) > 1:
+                s = s[1 : len(s)]
+                if int(s) not in primes:
                     truncable = False
                     break
-        if(truncable):
+        if truncable:
             result.append(primes[i])
     print sum(result)
     
@@ -298,14 +298,14 @@ def e_40():
     d = 1
     p = 0
     result = 1
-    while (d <= 1000000):
+    while d <= 1000000:
         d_beg = d_end + 1
         r = 10**p
         len_r = len(str(r))
         i_beg = 10**p
-        i_end = 10**(p+1)-1
-        d_end = d_beg + len_r*9*r-1
-        while (d >= d_beg and d <= d_end):
+        i_end = 10**(p + 1) - 1
+        d_end = d_beg + len_r * 9*r - 1
+        while d >= d_beg and d <= d_end:
             d_cell = (d - d_beg) / len_r
             num = i_beg + d_cell     
             digit = str(num)[(d - d_beg) % len_r]
@@ -319,7 +319,7 @@ def e_41():
         x = str(x)
         n = len(x)
         digits = []
-        for i in range(1, n+1):
+        for i in range(1, n + 1):
             digits.append(str(i))
         for i in range(len(digits)):
             if digits[i] not in x:
@@ -328,7 +328,7 @@ def e_41():
     
     primes = e_util.sieve(99999999)
     for i in reversed(primes):
-        if(isPanDigital(i)):
+        if isPanDigital(i):
             print i
             break
         
@@ -340,27 +340,27 @@ def e_67():
         arr.append(row)
     
     for row in range(1, len(arr)):
-        arr[row][0] += arr[row-1][0]
-        for i in range(1, len(arr[row])-1):
-            if(arr[row-1][i-1] > arr[row-1][i]):
-                arr[row][i] += arr[row-1][i-1]
+        arr[row][0] += arr[row - 1][0]
+        for i in range(1, len(arr[row]) - 1):
+            if arr[row - 1][i - 1] > arr[row - 1][i]:
+                arr[row][i] += arr[row - 1][i - 1]
             else:
-                arr[row][i] += arr[row-1][i]
-        arr[row][len(arr[row])-1] += arr[row-1][len(arr[row-1])-1]
-    print max(arr[len(arr)-1])                
-# -------------
+                arr[row][i] += arr[row - 1][i]
+        arr[row][len(arr[row]) - 1] += arr[row - 1][len(arr[row - 1]) - 1]
+    print max(arr[len(arr) - 1])                
+# - - -- - -- - -- - --
     
 def e_49():
     primes = e_util.sieve(10000)
-    for i in range(0, len(primes)-3):
-        for j in range(i+1, len(primes)-2): 
-            if (e_util.is_perm(str(primes[i]), str(primes[j]))):
+    for i in range(0, len(primes) - 3):
+        for j in range(i + 1, len(primes) - 2): 
+            if e_util.is_perm(str(primes[i]), str(primes[j])):
                 diff = primes[j] - primes[i]
                 try:
                     partner = primes.index(primes[j] + diff)
                 except ValueError:
                     partner = -1
-                if (partner != -1 and e_util.is_perm(str(primes[j]), str(primes[partner]))):
+                if partner != -1 and e_util.is_perm(str(primes[j]), str(primes[partner])):
                     print primes[i], primes[j], primes[partner]
 
 def e_24():
@@ -374,7 +374,7 @@ def e_30():
         acc = 0
         for c in word:
             acc += int(c)**5
-        if (acc == i):
+        if acc == i:
             result.append(i) 
     print sum(result)
 
@@ -385,32 +385,32 @@ def e_29():
 def e_34():
     for i in range(3, 99999):
         total = sum(e_util.factorial(int(c)) for c in str(i))
-        if (total == i):
+        if total == i:
             print i
 
 # Returns list of abundant numbers up to n 
 def get_abundants(n):
     result = []
     for i in range(2, n):
-        if (sum(e_util.get_factors(i)) > i):
+        if sum(e_util.get_factors(i)) > i:
             result.append(i)
     return result 
 
 def abundant_summable(x, abunds=[]):
-    if (not abunds):
+    if not abunds:
         abunds = get_abundants(x)
     else:
         # get subset of abunds we care about
         i = 0
         for abund_num in abunds:
-            if (abund_num >= x):
+            if abund_num >= x:
                 break
             i += 1
-        abunds = abunds[0:i]
+        abunds = abunds[0 : i]
 
     abunds_set = set(abunds)
     for abund_num in abunds:
-        if ((x - abund_num) in abunds_set):
+        if (x - abund_num) in abunds_set:
             return True
     return False     
 
@@ -418,28 +418,28 @@ def e_23():
     total = sum(i for i in range(1,24))
     abunds = get_abundants(28124)
     for i in range(25, 28124):
-        if (not abundant_summable(i, abunds)):
+        if not abundant_summable(i, abunds):
             total += i
     print total
 
 def is_penta(x):
-    c = -2*x
-    if (((1 + math.sqrt(1-12*c))/6) % 1 == 0):
+    c = -2 * x
+    if ((1 + math.sqrt(1 - 12 * c)) / 6) % 1 == 0:
         return True
     return False
 
 def is_hexa(x):
     c = x * -1
-    if (((1 + math.sqrt(1-8*c))/4) % 1 == 0):
+    if ((1 + math.sqrt(1 - 8 * c)) / 4) % 1 == 0:
         return True
     return False
     
 def e_45():
     n = 286
-    tri = n*(n+1)/2  
-    while (not (is_penta(tri) and is_hexa(tri))):
+    tri = n * (n + 1) / 2  
+    while not (is_penta(tri) and is_hexa(tri)):
        n += 1
-       tri = n*(n+1)/2
+       tri = n * (n + 1) / 2
     print tri 
 
 """ 
@@ -450,21 +450,21 @@ def get_patterns(s):
     result = []
     char_count = {}
     for c in s:
-        if (c in char_count):
+        if c in char_count:
             char_count[c] += 1
         else:
             char_count[c] = 1
             
     for key in char_count:
         num_wilds = char_count[key]
-        if (len(char_count) == 1): # don't include patterns of only wildcards, e.g. "****"
+        if len(char_count) == 1: # don't include patterns of only wildcards, e.g. "****"
             num_wilds = char_count[key] - 1
         for i in range(1, num_wilds + 1): # for every possible number of wildcards
             for perm in e_util.get_perms(key * (char_count[key] - i) + "*" * i):
                 pattern = ""
                 j = 0
                 for c in s:
-                    if (c == key):
+                    if c == key:
                         pattern += perm[j]
                         j += 1
                     else:
@@ -478,13 +478,13 @@ def e_51():
     family_target = 8
     for prime in e_util.sieve(1000000):
         prime_str = str(prime)
-        if (len(prime_str) > num_digits):
+        if len(prime_str) > num_digits:
             mem = {}
             num_digits = len(prime_str)
         for pattern in get_patterns(prime_str):
             if pattern in mem:
                 mem[pattern] += 1
-                if (mem[pattern] == family_target):
+                if mem[pattern] == family_target:
                     print pattern + " " + prime_str
                     return
             else:
@@ -492,14 +492,14 @@ def e_51():
         
 def e_52():
     i = 10
-    while (True):
+    while True:
         flag = True
         m = 2
         for m in range(2, 7):
-           if (not e_util.is_perm(str(i), str(i*m))):
+           if not e_util.is_perm(str(i), str(i * m)):
                 flag = False
                 break
-        if (flag):
+        if flag:
             print i
             break 
         i += 1
@@ -511,32 +511,32 @@ def e_39():
         sols = 0
         a = 1
         b = p
-        while ( a < b):
+        while  a < b:
             d = p - a
-            b = (d**2 - a**2) / float((2*d)) 
+            b = (d**2 - a**2) / float((2 * d)) 
             a += 1
-            if (b % 1 == 0): # sides are integral length
+            if b % 1 == 0: # sides are integral length
                 sols += 1
-        if (sols > max_sols):
+        if sols > max_sols:
             max_sols = sols
             max_p = p
     print max_p
 
 def e_33():
     for num in range(11, 99):
-        if (str(num)[1] == "0"):
+        if str(num)[1] == "0":
             continue
-        for den in range(num+1, 99):
+        for den in range(num + 1, 99):
             num_s = str(num)
             den_s = str(den)
-            if (den_s[1] == "0"):
+            if den_s[1] == "0":
                 continue
             for n_i in range(0, len(num_s)):
                 for d_i in range(0, len(den_s)):
-                    if (num_s[n_i] == den_s[d_i]):
-                        red_num = num_s[0:n_i] + num_s[n_i+1:len(num_s)]
-                        red_den = den_s[0:d_i] + den_s[d_i+1:len(den_s)]
-                        if (float(int(red_num))/int(red_den) == float(num)/den):
+                    if num_s[n_i] == den_s[d_i]:
+                        red_num = num_s[0 : n_i] + num_s[n_i + 1 : len(num_s)]
+                        red_den = den_s[0 : d_i] + den_s[d_i + 1 : len(den_s)]
+                        if float(int(red_num)) / int(red_den) == float(num) / den:
                             print num_s + " / " + den_s
              
 def e_32():
@@ -545,7 +545,7 @@ def e_32():
         a_s = str(a)
         b = 0
         prod = 1 
-        while (len(str(prod)) <= 4):
+        while len(str(prod)) <= 4:
             b += 1
             # simple string checks
             b_s = str(b)
@@ -554,11 +554,11 @@ def e_32():
                 if c in b_s:
                     has_rep = True 
                     break
-            if (has_rep):
+            if has_rep:
                 continue
 
-            prod = a*b
-            if (e_util.is_perm(a_s + b_s + str(prod), "123456789")): 
+            prod = a * b
+            if e_util.is_perm(a_s + b_s + str(prod), "123456789"): 
                 result.add(prod)
     print sum(result)
  
@@ -566,8 +566,8 @@ def e_53():
     total = 0
     for n in range(23, 101):
         for r in range(2, n):
-            combos = e_util.factorial(n) / (e_util.factorial(r)*e_util.factorial(n-r))
-            if (combos > 1000000):
+            combos = e_util.factorial(n) / (e_util.factorial(r) * e_util.factorial(n - r))
+            if combos > 1000000:
                 total += 1
     print total 
 
@@ -577,7 +577,7 @@ def e_56():
         for b in range(1, 100):
             prod = a**b
             digit_sum = sum([int(c) for c in str(prod)])
-            if (digit_sum > max):
+            if digit_sum > max:
                 max = digit_sum
     print max
 
@@ -586,10 +586,10 @@ def e_38():
     for i in range(2, 49877):
         ct_prd = ""
         m = 1
-        while (len(ct_prd) < 9):
-            ct_prd += str(i*m)
+        while len(ct_prd) < 9:
+            ct_prd += str(i * m)
             m += 1
-        if (e_util.is_perm(ct_prd, "123456789") and int(ct_prd) > max):
+        if e_util.is_perm(ct_prd, "123456789") and int(ct_prd) > max:
             max = int(ct_prd)
     print max    
 
@@ -599,12 +599,12 @@ def e_55():
         curr = i
         is_lychrel = True
         for iterations in range(0, 50):
-            sum = curr + int((str(curr)[::-1]))
-            if (e_util.is_palindrome(str(sum))):
+            sum = curr + int((str(curr)[ : : -1]))
+            if e_util.is_palindrome(str(sum)):
                 is_lychrel = False
                 break
             curr = sum
-        if (is_lychrel):
+        if is_lychrel:
             result += 1 
     print result
 
@@ -616,14 +616,14 @@ def e_50():
     for i in range(0, len(primes)):
         sum = primes[i]
         seq_len = 1
-        for j in range(i+1, len(primes)):
+        for j in range(i + 1, len(primes)):
             sum += primes[j]
-            if (sum > 1000000):
+            if sum > 1000000:
                 sum -= primes[j]
                 break
-            if (sum in prime_set):
-                seq_len = j-i+1
-        if (seq_len > max):
+            if sum in prime_set:
+                seq_len = j - i + 1
+        if seq_len > max:
             max = seq_len
             max_sum = sum
     print max_sum
@@ -631,13 +631,13 @@ def e_50():
 # Solves quadratic equation and returns left and right zero-crossing in a list, 
 # at index 1 and 2 respectively.
 def solv_quad(a, b, c):
-    sol = [None]*2
+    sol = [None] * 2
     try:
-        sol[0] = (-1*b - math.sqrt(b**2-4*a*c)) / float(2*a)
+        sol[0] = ( - 1 * b - math.sqrt(b**2 - 4 * a*c)) / float(2 * a)
     except (ValueError, DivideByZeroError):
         pass
     try:
-        sol[1] = (-1*b + math.sqrt(b**2-4*a*c)) / float(2*a)
+        sol[1] = ( - 1 * b + math.sqrt(b**2 - 4 * a*c)) / float(2 * a)
     except (ValueError, DivideByZeroError):
         pass
     return sol
@@ -645,9 +645,9 @@ def solv_quad(a, b, c):
 def is_triangle(word):
     total = 0
     for c in word:
-        total += ord(c)-64
-    sol = solv_quad(1, 1, -2*total)[1]
-    if (sol != None and sol % 1 == 0):
+        total += ord(c) - 64
+    sol = solv_quad(1, 1, -2 * total)[1]
+    if sol != None and sol % 1 == 0:
         return True
     return False
 
@@ -658,20 +658,20 @@ def e_42():
     words = line.split(",")
     for w in words:
         w = w.replace('"', '')
-        if (is_triangle(w)):
+        if is_triangle(w):
             result += 1
     print result 
 
 def is_sumPrimeAndDouble(x, primes=e_util.sieve(1000000)):
     p = primes[0]
     i = 0
-    while (p < x): 
+    while p < x: 
         sum = 0
         base = 1
-        while (sum < x):
-            sum = p + 2*base**2
+        while sum < x:
+            sum = p + 2 * base**2
             base += 1
-        if (sum == x):
+        if sum == x:
             return True   
         i += 1
         p = primes[i]
@@ -680,8 +680,8 @@ def is_sumPrimeAndDouble(x, primes=e_util.sieve(1000000)):
 def e_46():
     i = 9
     primes = e_util.sieve(10000)
-    while (True):
-        if (not e_util.is_prime(i) and not is_sumPrimeAndDouble(i, primes)):
+    while True:
+        if not e_util.is_prime(i) and not is_sumPrimeAndDouble(i, primes):
             print i
             return  
         i += 2
@@ -690,19 +690,19 @@ def e_47():
     i = 1000
     T = 4 # find first T consecutive integers with T distinct factors
     i_processed = False # optimization to avoid getting prime factors twice
-    while (True):
-        if (i_processed or len(e_util.get_prime_factors(i)) >= T):
+    while True:
+        if i_processed or len(e_util.get_prime_factors(i)) >= T:
             seq_len = 1
             for j in reversed(range(1,T)): 
-                if (len(e_util.get_prime_factors(i+j)) >= T):
+                if len(e_util.get_prime_factors(i + j)) >= T:
                     seq_len += 1
                 else:
                     break
-            if (seq_len == T):
-                print [i+k for k in range(0, T)]
+            if seq_len == T:
+                print [i + k for k in range(0, T)]
                 return
             i += T - seq_len + 1 # skip ahead 
-            if (seq_len > 1):
+            if seq_len > 1:
                 i_processed = True
             else:
                 i_processed = False
@@ -716,24 +716,24 @@ def e_43():
     for p in e_util.get_perms("0123456789"):
         flag = True
         for i in range(1, 8):
-            if (int(p[i:i+3]) % primes[i-1] != 0):
+            if int(p[i : i + 3]) % primes[i - 1] != 0:
                 flag = False
                 break    
-        if (flag):
+        if flag:
             sum += int(p)
     print sum
 
 def e_44():
     RANGE = 10000 # terms to lookahead for matching pairs
-    pentas = [n*(3*n-1)/2 for n in range(1, 10001)]
+    pentas = [n * (3 * n - 1) / 2 for n in range(1, 10001)]
     lookup_tbl = set(pentas)
     min_diff = sys.maxint
-    for i in range(0, len(pentas)-1):
-        for j in range(i+1, min(i+RANGE+1, len(pentas))):
+    for i in range(0, len(pentas) - 1):
+        for j in range(i + 1, min(i + RANGE + 1, len(pentas))):
             sum = pentas[j] + pentas[i]
             diff = pentas[j] - pentas[i]
-            if (sum in lookup_tbl and diff in lookup_tbl):
-                if (diff < min_diff):
+            if sum in lookup_tbl and diff in lookup_tbl:
+                if diff < min_diff:
                     min_diff = diff
     print min_diff 
 
@@ -744,15 +744,15 @@ def e_79():
         line = line.strip() # remove newline
         for i in range(0, len(line)):
             c = line[i]
-            if (c not in visited):
+            if c not in visited:
                 visited[c] = []
-            for k in line[i+1:]:
-                if (k not in visited[c]):
+            for k in line[i + 1 : ]:
+                if k not in visited[c]:
                     visited[c].append(k)    
     code = ""
-    while (len(visited) > 0):
+    while len(visited) > 0:
         for c in visited: 
-            if (len(visited[c]) == len(visited) - 1):
+            if len(visited[c]) == len(visited) - 1:
                 code += c
                 del visited[c]
                 break
@@ -761,15 +761,15 @@ def e_79():
 def e_63():
     digits = 1
     count = 1 # we know 1^x will always be 1 digit, so just count it here
-    while (True):
+    while True:
         i = 2
         pwrd = str(i**digits)
-        while (len(pwrd) <= digits):
-            if (len(str(pwrd)) == digits):
+        while len(pwrd) <= digits:
+            if len(str(pwrd)) == digits:
                 count += 1
             i += 1
             pwrd = str(i**digits)
-        if (i == 10 and len(str(9**digits)) < digits):
+        if i == 10 and len(str(9**digits)) < digits:
             break
         digits += 1
     print count
@@ -780,17 +780,17 @@ def has_english(filename, threshold=9):
     found = 0
     for line in file:
         for word in line.split():
-            if (word in vocab):
+            if word in vocab:
                 found += 1
     file.close()
-    if (found >= threshold):
+    if found >= threshold:
         return True
     return False
 
 def decrypt(cipher, key, outname=None):
     f = open(cipher, "r")
     outfile = None
-    if (not outname):
+    if not outname:
         outfile = open(f.name + ".decrypted", "w")
     else:
         outfile = open(outname, "w")
@@ -801,7 +801,7 @@ def decrypt(cipher, key, outname=None):
             dcrptd_byte = int(code)^ord(key[i])
             outfile.write(chr(dcrptd_byte))
             i += 1
-            if (i == len(key)):
+            if i == len(key):
                 i = 0
     outfile.close()
     f.close()
@@ -813,13 +813,13 @@ def e_59():
     done = False
     key_len = 3
 
-    for c in range(97, 97+26):
+    for c in range(97, 97 + 26):
         for _ in range(0, key_len): # include keys with repeating characters, e.g. 'aaa'
             all_letters += chr(c)
     for combo in e_util.get_combos(all_letters, key_len):
         for key in e_util.get_perms(combo):
             decrypt(cipher, key, outname)
-            if (has_english(outname)):
+            if has_english(outname):
                 print key
                 return
                 
@@ -839,20 +839,20 @@ def find_repeat_vals(hand):
     result = _RepeatValsResult()
 
     for card in hand:
-        if (card.val in vals):
+        if card.val in vals:
             vals[card.val] += 1
         else:
             vals[card.val] = 1
 
     for val in vals:
-        if (vals[val] == 4):
+        if vals[val] == 4:
             result.is_four_kind = True
             result.val = val
-        elif (vals[val] == 3):
+        elif vals[val] == 3:
             result.is_three_kind = True
             result.val = val
-        elif (vals[val] == 2):
-            if (result.pair1_val is None):
+        elif vals[val] == 2:
+            if result.pair1_val is None:
                 result.is_pair = True
                 result.pair1_val = val
             else:
@@ -863,7 +863,7 @@ def find_repeat_vals(hand):
     return result
 
 """ 
-Container for find_str8() result. Also stores high-card since find_str8() sorts the 
+Container for find_str8() result. Also stores high - card since find_str8() sorts the 
 hand allowing easy access to highcard.
 """      
 class _FindStr8Result:
@@ -875,9 +875,9 @@ def find_str8(hand):
     result = _FindStr8Result()
     srted = [card.val for card in hand]
     srted.sort()
-    result.high_card = srted[-1]
-    for i in range(0, len(srted)-1):
-        if (srted[i] + 1 !=  srted[i+1]):
+    result.high_card = srted[ - 1]
+    for i in range(0, len(srted) - 1):
+        if srted[i] + 1 !=  srted[i + 1]:
             return result
     result.has_str8 = True
     return result
@@ -885,7 +885,7 @@ def find_str8(hand):
 def has_flush(hand):
     suit = hand[0].suit
     for i in range(1, len(hand)):
-        if (hand[i].suit != suit):
+        if hand[i].suit != suit:
             return False
     return True  
 
@@ -898,20 +898,20 @@ class _Card:
         try:
             self.val = int(s[0])
         except ValueError:
-            if (s[0] == "T"):
+            if s[0] == "T":
                 self.val = 10
-            elif (s[0] == "J"):
+            elif s[0] == "J":
                 self.val = 11
-            elif (s[0] == "Q"):
+            elif s[0] == "Q":
                 self.val = 12
-            elif (s[0] == "K"):
+            elif s[0] == "K":
                 self.val = 13
             else:
                 self.val = 14
         self.suit = s[1]
         
     def __repr__(self):
-        return self.suit + "-" + str(self.val)
+        return self.suit + " - " + str(self.val)
         
 class _HandRank:
     HIGH_CARD, PAIR, TWO_PAIR, THREE_KIND, STR8, FLUSH\
@@ -929,21 +929,21 @@ def rank_hand(hand_info):
     str8_result =  hand_info.str8_result
     is_flush =  hand_info.is_flush   
     
-    if (rep_result.is_two_pair):
+    if rep_result.is_two_pair:
         rank = _HandRank.TWO_PAIR
-    elif (rep_result.is_pair):
+    elif rep_result.is_pair:
         rank = _HandRank.PAIR
-        if (rep_result.is_three_kind):
+        if rep_result.is_three_kind:
             rank = _HandRank.FULL_HOUSE
-    elif (rep_result.is_three_kind):
+    elif rep_result.is_three_kind:
         rank = _HandRank.THREE_KIND
-    elif (rep_result.is_four_kind):
+    elif rep_result.is_four_kind:
         rank = _HandRank.FOUR_KIND
-    elif (str8_result.has_str8):
+    elif str8_result.has_str8:
         rank = _HandRank.STR8
-        if (is_flush):
+        if is_flush:
             rank = _HandRank.STR8_FLUSH
-    elif (is_flush):
+    elif is_flush:
         rank = _HandRank.FLUSH
         
     return rank    
@@ -960,25 +960,25 @@ class _HandInfo:
         
 """ Returns True iff hand 1 is the winning hand """        
 def is_winning_hand(h1_info, h2_info):
-    if (h1_info.rank != h2_info.rank):
+    if h1_info.rank != h2_info.rank:
         return h1_info.rank > h2_info.rank
     # resolve tie
-    if (h1_info.rank == _HandRank.PAIR or h1_info.rank == _HandRank.TWO_PAIR):
+    if h1_info.rank == _HandRank.PAIR or h1_info.rank == _HandRank.TWO_PAIR:
         h1_pair_val = max(h1_info.rep_result.pair1_val, h1_info.rep_result.pair2_val)
         h2_pair_val = max(h2_info.rep_result.pair1_val, h2_info.rep_result.pair2_val)
-        if (h1_pair_val > h2_pair_val):
+        if h1_pair_val > h2_pair_val:
             return True
-        elif (h1_pair_val < h2_pair_val):
+        elif h1_pair_val < h2_pair_val:
             return False
         else:
             return max(h1_info.rep_result.remainder) > max(h2_info.rep_result.remainder)
     elif (h1_info.rank == _HandRank.THREE_KIND or h1_info.rank == _HandRank.FOUR_KIND or\
             h1_info.rank == _HandRank.FULL_HOUSE):
-        if (h1_info.rep_result.val > h2_info.rep_result.val):
+        if h1_info.rep_result.val > h2_info.rep_result.val:
             return True
-        elif (h1_info.rep_result.val < h2_info.rep_result.val):
+        elif h1_info.rep_result.val < h2_info.rep_result.val:
             return False
-    if (h1_info.str8_result.high_card == h2_info.str8_result.high_card):
+    if h1_info.str8_result.high_card == h2_info.str8_result.high_card:
         raise Exception("NO CLEAR WINNER")
         
     return h1_info.str8_result.high_card > h2_info.str8_result.high_card
@@ -1000,7 +1000,7 @@ def e_54():
         hand_info_1 = _HandInfo(p1_hand)
         hand_info_2 = _HandInfo(p2_hand)
         # determine winner
-        if (is_winning_hand(hand_info_1, hand_info_2)):
+        if is_winning_hand(hand_info_1, hand_info_2):
             result += 1
     print result
 
@@ -1015,7 +1015,7 @@ def e_57():
         acc = 2 + acc
         acc = fractions.Fraction(acc.denominator, acc.numerator) # 1 / acc
         sqrt_2 = 1 + acc
-        if (len(str(sqrt_2.numerator)) > len(str(sqrt_2.denominator))):
+        if len(str(sqrt_2.numerator)) > len(str(sqrt_2.denominator)):
             result += 1
     print result
         
@@ -1025,13 +1025,13 @@ def e_58():
     diags = 1
     i = 1
     # create spiral
-    while (True):
+    while True:
         for _ in range(4):
             i += skip + 1
-            if (e_util.is_prime(i)):
+            if e_util.is_prime(i):
                 p += 1
         diags += 4
-        if (float(p) / diags < .10):
+        if float(p) / diags < .10:
             print skip + 2
             return
         skip += 2
@@ -1043,19 +1043,19 @@ def e_62():
     num_digits = len(str(cubed))
     cubes = []
 
-    while (True):
+    while True:
         # cache cubes with num_digits
-        while (len(str(cubed)) == num_digits):
+        while len(str(cubed)) == num_digits:
             cubes.append(cubed)
             i += 1
             cubed = i**3
         
         for j in range(len(cubes) - P + 1):
             cube_perms = 1
-            for k in range(j+1, len(cubes)):
-                if (e_util.is_perm(str(cubes[j]), str(cubes[k]))):
+            for k in range(j + 1, len(cubes)):
+                if e_util.is_perm(str(cubes[j]), str(cubes[k])):
                     cube_perms += 1
-            if (cube_perms == P):
+            if cube_perms == P:
                 print cubes[j]
                 return
                 
@@ -1063,46 +1063,46 @@ def e_62():
         cubes = []
         
 def totient(n):
-    if (n == 2):
+    if n == 2:
         return 1
     result = 1
     is_even = False
-    if (n % 2 == 0):
+    if n % 2 == 0:
         is_even = True
-    arr = [True]*(n/2+1)
+    arr = [True] * (n / 2 + 1)
     loop_start = 2
     step = 1
-    if (is_even):
+    if is_even:
         loop_start = 3
         step = 2
     for i in range(loop_start, len(arr), step):
-        if (arr[i]):
-            if (n % i == 0):
-                for j in range(i+i, len(arr), i):
+        if arr[i]:
+            if n % i == 0:
+                for j in range(i + i, len(arr), i):
                     arr[j] = False
             else:
                 result += 1
                 
-    return result*2
+    return result * 2
 
 """
     Recursion terminates by either returning a 1 or a multiple of two depending on which level
     of convergence it's on.
 """
 def converge_e_helper(acc, curr_level, target):
-    if (curr_level % 3 == 0):
-        if (curr_level == target):
+    if curr_level % 3 == 0:
+        if curr_level == target:
             return acc
         else:
             return acc + fractions.Fraction(1, converge_e_helper(acc + 2, curr_level + 1, target))
     else:
-        if (curr_level == target):
+        if curr_level == target:
             return 1
         else:
             return 1 + fractions.Fraction(1, converge_e_helper(acc, curr_level + 1, target))
     
 def converge_e(level):
-    if (level <= 1):
+    if level <= 1:
         return fractions.Fraction(2, 1)
     return fractions.Fraction(2, 1) + fractions.Fraction(1, converge_e_helper(2, 2, level))
     
@@ -1114,14 +1114,14 @@ def e_69():
     max_n = 0
     for n in range(6, 1000001, 6):
         r = float(n) / totient(n)
-        if (r > max):
+        if r > max:
             max = r
             max_n = n
             print n
     print max_n 
 
 """" 
-    Determine closest we can get to 3/7 for each denominator by solving for numerator 
+    Determine closest we can get to 3 / 7 for each denominator by solving for numerator 
     in 'num / denom = 3 / 7'.
 """
 def e_71():
@@ -1131,11 +1131,11 @@ def e_71():
     for denom in range(3, 1000001):
         num = int(denom * target)
         diff = target - (float(num) / denom)
-        if (diff < closest and diff != 0):
+        if diff < closest and diff != 0:
             closest = diff
             closest_num = num
             closest_denom = denom
-    print closest_num, "/" , closest_denom
+    print closest_num, " / " , closest_denom
 
 """" Same idea as e_71() """
 def e_73():
@@ -1143,12 +1143,12 @@ def e_73():
     d = 12000
     left_bound = float(1) / 3
     right_bound = float(1) / 2
-    for denom in range(4, d+1):
+    for denom in range(4, d + 1):
         left_num = math.floor(denom * left_bound) + 1
         right_num = math.ceil(denom * right_bound) - 1
         
-        for num in range(int(left_num), int(right_num)+1):
-            if (fractions.gcd(num, denom) == 1):
+        for num in range(int(left_num), int(right_num) + 1):
+            if fractions.gcd(num, denom) == 1:
                 result += 1
     print result
     
@@ -1158,12 +1158,12 @@ def e_74():
     for i in range(69, 1000000):
         chain = set([i])
         fact_sum = sum(map(math.factorial, map(int, str(i))))
-        while (fact_sum not in chain):
+        while fact_sum not in chain:
             chain.add(fact_sum)
-            if (len(chain) > target):
+            if len(chain) > target:
                 break            
             fact_sum = sum(map(math.factorial, map(int, str(fact_sum))))
-        if (len(chain) == target):
+        if len(chain) == target:
             result += 1
     print result
         
@@ -1175,30 +1175,30 @@ def e_81():
     num_cols = len(arr[0])
     # update edges
     for col in range(1, num_cols):
-        arr[0][col] += arr[0][col-1]
+        arr[0][col] += arr[0][col - 1]
     for row in range(1, num_rows):
-        arr[row][0] += arr[row-1][0]
+        arr[row][0] += arr[row - 1][0]
         
     curr = 1
-    while (curr < num_rows):
+    while curr < num_rows:
         for col in range(curr, num_cols):
-            if (arr[curr][col-1] < arr[curr-1][col]):
-                arr[curr][col] += arr[curr][col-1]
+            if arr[curr][col - 1] < arr[curr - 1][col]:
+                arr[curr][col] += arr[curr][col - 1]
             else:
-                arr[curr][col] += arr[curr-1][col]
-        for row in range(curr+1, num_rows):
-            if (arr[row][curr-1] < arr[row-1][curr]):
-                arr[row][curr] += arr[row][curr-1]
+                arr[curr][col] += arr[curr - 1][col]
+        for row in range(curr + 1, num_rows):
+            if arr[row][curr - 1] < arr[row - 1][curr]:
+                arr[row][curr] += arr[row][curr - 1]
             else:
-                arr[row][curr] += arr[row-1][curr]
+                arr[row][curr] += arr[row - 1][curr]
         curr += 1
-    print arr[num_rows-1][num_cols-1]
+    print arr[num_rows - 1][num_cols - 1]
     
 def num_sums(n, terms, lwr_lim):
-    if (terms == 1):
+    if terms == 1:
         return 1
     result = 0
-    for i in range(lwr_lim, n/terms + 1):
+    for i in range(lwr_lim, n / terms + 1):
         rmdr = n - i
         result += num_sums(rmdr, terms - 1, i)
     return result
@@ -1206,7 +1206,7 @@ def num_sums(n, terms, lwr_lim):
 def e_76():
     n = 100
     result = 0
-    for num_terms in range(2, n+1):
+    for num_terms in range(2, n + 1):
         result += num_sums(n, num_terms, 1)
     print result
       
@@ -1215,14 +1215,14 @@ def e_92():
     lkup_tbl = {}
     for i in range(1, 10000000):
         curr = i
-        while (curr != 89 and curr != 1):
+        while curr != 89 and curr != 1:
             sum_digits = 0
             for c in str(curr):
                 sum_digits += int(c)**2
             curr = sum_digits
-            if (curr in lkup_tbl):
+            if curr in lkup_tbl:
                 break
-        if (curr == 89 or curr in lkup_tbl and lkup_tbl[curr] == True):
+        if curr == 89 or curr in lkup_tbl and lkup_tbl[curr] == True:
             lkup_tbl[i] = True
             total += 1
         else:
@@ -1239,7 +1239,7 @@ def e_99():
         curr_base = int(exp_pair[0])
         curr_exp = int(exp_pair[1])
         
-        if (curr_base > max_base**(float(max_exp) / curr_exp)):
+        if curr_base > max_base**(float(max_exp) / curr_exp):
             max_base = curr_base
             max_exp = curr_exp
             max_line = curr_line
@@ -1249,11 +1249,11 @@ def is_bouncy(x):
     is_inc = is_dec = True
     x = str(x)
     for i in range(0, len(x) - 1):
-        if (x[i] < x[i+1]):
+        if x[i] < x[i + 1]:
             is_dec = False
-        if (x[i] > x[i+1]):
+        if x[i] > x[i + 1]:
             is_inc = False
-        if (not (is_inc or is_dec)):
+        if not (is_inc or is_dec):
             return True
     return not (is_inc or is_dec)
         
@@ -1264,24 +1264,24 @@ def e_112():
     max_lkup_size = 10**digits2mem
     mem = set()
 
-    while (i < max_lkup_size):
+    while i < max_lkup_size:
         i_str = str(i)
         # Bouncy numbers within a number means the whole number is bouncy
-        if (is_bouncy(i)):
+        if is_bouncy(i):
             total_bouncy += 1
             mem.add(str(i))
-        if (float(total_bouncy) / i == .99):
+        if float(total_bouncy) / i == .99:
             print i
             return
         i += 1
     
     # Memoize numbers containing <= 'digits2mem' digits.
-    while (True):
+    while True:
         i_str = str(i)
         # Bouncy numbers within a number means the whole number is bouncy
-        if (i_str[len(i_str) - digits2mem:] in mem or is_bouncy(i)):
+        if i_str[len(i_str) - digits2mem : ] in mem or is_bouncy(i):
             total_bouncy += 1
-        if (float(total_bouncy) / i == .99):
+        if float(total_bouncy) / i == .99:
             print i
             return
         i += 1
@@ -1295,18 +1295,18 @@ def e_113():
     mem = set()
     
     # Memoize numbers containing <= 'digits2mem' digits.
-    while (i < max_lkup_size):
+    while i < max_lkup_size:
         i_str = str(i)
-        if (i_str[len(i_str) - digits2mem:] in mem or is_bouncy(i)):
+        if i_str[len(i_str) - digits2mem : ] in mem or is_bouncy(i):
             mem.add(str(i))
         else:
             result += 1
         i += 1
     
-    while (i < 10**8):
+    while i < 10**8:
         i_str = str(i)
         # Bouncy numbers within a number means the whole number is bouncy
-        if (i_str[len(i_str) - digits2mem:] not in mem and not is_bouncy(i)):
+        if i_str[len(i_str) - digits2mem : ] not in mem and not is_bouncy(i):
             result += 1   
         i += 1
         
@@ -1315,14 +1315,14 @@ def e_113():
 # TODO    
 def e_125():
     for i in range(2, 10**8):
-        if (e_util.is_palindrome(str(i))):
+        if e_util.is_palindrome(str(i)):
             print i
     
 def main():
     start = time.time()
     i = 0
     c = (10**9) / 13
-    while (i < (10**9) / 13):
+    while i < (10**9) / 13:
         x = 1 + 1
         i += 1
     print "TIME: " + str(time.time() - start)

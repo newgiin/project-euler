@@ -2,6 +2,7 @@
 import euler
 import argparse
 import signal
+import time
 import sys
 
 class TimeoutException(Exception):
@@ -11,14 +12,16 @@ def timeout_handler(signum, frame):
     raise TimeoutException()  
 
 def run_sol(n, timeout):
-    func_name = "euler.e_" + str(n) + "()"
     print "Euler #" + str(n) + ": ",
     
     if timeout is not None:
         signal.signal(signal.SIGALRM, timeout_handler)
         signal.alarm(timeout)
     try:
+        func_name = "euler.e_" + str(n) + "()"
+        start = time.time()
         exec(func_name)
+        print "\tTIME: " + str(time.time() - start)
     except AttributeError:
     	print "Not implemented."
     except TimeoutException:
@@ -39,7 +42,7 @@ def main():
     parser.add_argument("probs", metavar="P", nargs="*", type=int, help="Problem to solve")
     args = parser.parse_args()
     
-    if (len(sys.argv) == 1):
+    if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(1)        
         
