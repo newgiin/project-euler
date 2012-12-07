@@ -5,12 +5,12 @@ import math
 # ------------------------
 def sieve(n):
     primes = [2]
-    nums = [True]*n
+    nums = [True] * n
     i = 3
     while i < n:
         primes.append(i)
-        sieve = i*i
-        step = 2*i
+        sieve = i * i
+        step = 2 * i
         while sieve < n:
             nums[sieve] = False
             sieve += step 
@@ -28,7 +28,7 @@ def is_prime(x):
         return True
     if x < 2 or x % 2 == 0:
         return False
-    for i in range(3, int(math.sqrt(x)+1), 2):
+    for i in range(3, int(math.sqrt(x) + 1), 2):
         if x % i == 0:
             return False
     return True
@@ -39,10 +39,10 @@ def get_factors(x):
         return result
 
     root = math.sqrt(x)
-    for i in range(2, int(root)+1):
+    for i in range(2, int(root) + 1):
         if x % i == 0:
             result.append(i)
-            result.append(x/i)
+            result.append(x / i)
     result.sort()
 
     if root % 1 == 0:
@@ -52,7 +52,7 @@ def get_factors(x):
 
 def factorial(n):
     result = 1
-    for i in range(2, n+1):
+    for i in range(2, n + 1):
         result *= i
     return result   
   
@@ -80,7 +80,7 @@ def get_perms(word):
     for i in range(0, len(word)):
         if word[i] not in seen: # do not include redundants
             seen.append(word[i])
-            remainder = word[0:i] + word[i+1:]
+            remainder = word[0 : i] + word[i + 1 : ]
             for perm in get_perms(remainder):
                 result.append(word[i] + perm)
     if len(word) == 1:
@@ -89,8 +89,8 @@ def get_perms(word):
 
 def is_palindrome(s):
     s= str(s)
-    for i in range(0, len(s)/2):
-        if s[i] != s[len(s)-1-i]:
+    for i in range(0, len(s) / 2):
+        if s[i] != s[len(s) - 1 - i]:
             return False
     return True 
 
@@ -99,8 +99,8 @@ def get_combos(alphabet, n):
     result = []
     if n == 1:
         return list(alphabet)
-    for i in range(0, len(alphabet)-n+1):
-        remainder = alphabet[i+1:len(alphabet)]
-        for c in get_combos(remainder, n-1):
+    for i in range(0, len(alphabet) - n + 1):
+        remainder = alphabet[i + 1 : len(alphabet)]
+        for c in get_combos(remainder, n - 1):
             result.append(alphabet[i] + c)    
     return result    
