@@ -15,7 +15,7 @@ def e_13():
     line = f.readline()
     # 2d array holding last 10 digits per line
     # must do it this way since Python has no easy way to make 2d arrays
-    arr = [[],[],[],[],[],[],[],[],[],[]]
+    arr = [[], [], [], [], [], [], [], [], [], []]
     while line:
         arr[0].append(int(line[49]))
         arr[1].append(int(line[48]))
@@ -129,34 +129,33 @@ def e_19():
     print sum
     
 def sumDivisors(n):
-    sum = 0;
+    sum = 0
     for i in range(1, int(math.sqrt(n)) + 1):
         if n % i == 0:
-            sum += i;
-            sum += n / i;
-    return sum;
+            sum += i
+            sum += n / i
+    return sum
         
 def e_21():
-    n = 10000;
-    visited = [];
-    result = 0;
+    n = 10000
+    visited = []
+    result = 0
     for i in range(n):
         if i not in visited:
-            d = sumDivisors(i);
+            d = sumDivisors(i)
             if sumDivisors(d) == i and d != i:
-                result += i;
-                visited.append(i);
+                result += i
+                visited.append(i)
                 if d < n:
-                    result += d;
-                    visited.append(d);
-    print result;
+                    result += d
+                    visited.append(d)
+    print result
     
 def e_25():
     first = 0
     sec = 1
     n = 1
     while len(str(sec)) < 1000:
-    #while n < 20:
         temp = first
         first = sec
         sec += temp
@@ -165,7 +164,7 @@ def e_25():
     
 def findMaxRecur(s):
     result = ""
-    # do that binary split magic!
+    # do binary split
     rightLimit = int(len(s) / 2)
     while rightLimit > 0:
         for start in range(len(s) - rightLimit * 2 + 1):
@@ -187,7 +186,7 @@ def e_26():
     max_d = 0
     max_str = ""
     start = time.time()
-    for d in range(3,1000):
+    for d in range(3, 1000):
         dec = str(Decimal(1) / Decimal(d)).split(".")[1]
         recurrer = findMaxRecur(dec)
         if len(max_str) < len(recurrer):
@@ -200,8 +199,8 @@ def e_27():
     max_primes = 0
     max_a = 0
     max_b = 0
-    for a in range( - 999, 1000):
-        for b in range( - 999, 1000):
+    for a in range(-999, 1000):
+        for b in range(-999, 1000):
             n = 0
             while e_util.is_prime(n**2 + a * n + b):
                 n += 1
@@ -223,44 +222,44 @@ def e_28():
     print result
     
 def e_31():
-    denoms = [1,2,5,10,20,50,100,200]
+    denoms = [1, 2, 5, 10, 20, 50, 100, 200]
 
     def combo_recurr(n, maxDenom):
         if maxDenom == 1:
             return 1
         remainder = n - maxDenom
         if remainder == 0:
-            return 1 + combo_recurr(n,denoms[denoms.index(maxDenom) - 1])
+            return 1 + combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
         if remainder < 0:
             return combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
         return combo_recurr(remainder, maxDenom) + combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
     
     def combos(n):
-        return combo_recurr(n,200)
+        return combo_recurr(n, 200)
     
     
     print combos(200)
 
 def e_35():
     def isCircular(n):
-        n = list(str(n));
+        n = list(str(n))
         for i in range(len(n) - 1):
             last = n[len(n) - 1]
             for c in range(len(n) - 2, -1, -1):
-                n[c + 1] = n[c];
-            n[0] = last;
+                n[c + 1] = n[c]
+            n[0] = last
             if e_util.is_prime(int("".join(n))) == False:
-                return False;
-        return True;
+                return False
+        return True
 
     primes = e_util.sieve(1000000)
 
     # count number of circular primes
-    count = 0;
+    count = 0
     for i in range(len(primes)):
         if isCircular(primes[i]):
-            count += 1;
-    print count;
+            count += 1
+    print count
     
 def e_36():
     total = 0
@@ -272,7 +271,7 @@ def e_36():
 def e_37():
     primes = e_util.sieve(900000)
     result = []
-    for i in range(4,len(primes)):
+    for i in range(4, len(primes)):
         s = str(primes[i])
         # remove from right to left
         truncable = True
@@ -304,7 +303,7 @@ def e_40():
         len_r = len(str(r))
         i_beg = 10**p
         i_end = 10**(p + 1) - 1
-        d_end = d_beg + len_r * 9*r - 1
+        d_end = d_beg + len_r * 9 * r - 1
         while d >= d_beg and d <= d_end:
             d_cell = (d - d_beg) / len_r
             num = i_beg + d_cell     
@@ -347,8 +346,7 @@ def e_67():
             else:
                 arr[row][i] += arr[row - 1][i]
         arr[row][len(arr[row]) - 1] += arr[row - 1][len(arr[row - 1]) - 1]
-    print max(arr[len(arr) - 1])                
-# - - -- - -- - -- - --
+    print max(arr[len(arr) - 1])
     
 def e_49():
     primes = e_util.sieve(10000)
@@ -415,7 +413,7 @@ def abundant_summable(x, abunds=[]):
     return False     
 
 def e_23():
-    total = sum(i for i in range(1,24))
+    total = sum(i for i in range(1, 24))
     abunds = get_abundants(28124)
     for i in range(25, 28124):
         if not abundant_summable(i, abunds):
@@ -633,11 +631,11 @@ def e_50():
 def solv_quad(a, b, c):
     sol = [None] * 2
     try:
-        sol[0] = ( - 1 * b - math.sqrt(b**2 - 4 * a*c)) / float(2 * a)
+        sol[0] = (-1 * b - math.sqrt(b**2 - 4 * a * c)) / float(2 * a)
     except (ValueError, DivideByZeroError):
         pass
     try:
-        sol[1] = ( - 1 * b + math.sqrt(b**2 - 4 * a*c)) / float(2 * a)
+        sol[1] = (-1 * b + math.sqrt(b**2 - 4 * a * c)) / float(2 * a)
     except (ValueError, DivideByZeroError):
         pass
     return sol
@@ -693,7 +691,7 @@ def e_47():
     while True:
         if i_processed or len(e_util.get_prime_factors(i)) >= T:
             seq_len = 1
-            for j in reversed(range(1,T)): 
+            for j in reversed(range(1, T)): 
                 if len(e_util.get_prime_factors(i + j)) >= T:
                     seq_len += 1
                 else:
@@ -776,7 +774,7 @@ def e_63():
 
 def has_english(filename, threshold=9):
     file = open(filename, "r")
-    vocab = set(['the', 'The','and', 'you', 'there', 'have', 'that', 'from'])
+    vocab = set(['the', 'The', 'and', 'you', 'there', 'have', 'that', 'from'])
     found = 0
     for line in file:
         for word in line.split():
@@ -825,8 +823,10 @@ def e_59():
                 
     print "FAILED"
 
-""" Container for find_repeat_vals result """
 class _RepeatValsResult:
+    """ 
+    Container for find_repeat_vals result 
+    """
     def __init__(self):
         self.is_four_kind = self.is_three_kind = self.is_two_pair = self.is_pair = False
         # value of a {3,4}-of-a-kind, pair vals
@@ -862,11 +862,11 @@ def find_repeat_vals(hand):
             result.remainder.append(val)
     return result
 
-""" 
-Container for find_str8() result. Also stores high - card since find_str8() sorts the 
-hand allowing easy access to highcard.
-"""      
 class _FindStr8Result:
+    """ 
+    Container for find_str8() result. Also stores high - card since find_str8() sorts the 
+    hand allowing easy access to highcard.
+    """    
     def __init__(self):
         self.high_card = None
         self.has_str8 = False
@@ -875,7 +875,7 @@ def find_str8(hand):
     result = _FindStr8Result()
     srted = [card.val for card in hand]
     srted.sort()
-    result.high_card = srted[ - 1]
+    result.high_card = srted[-1]
     for i in range(0, len(srted) - 1):
         if srted[i] + 1 !=  srted[i + 1]:
             return result
@@ -948,10 +948,10 @@ def rank_hand(hand_info):
         
     return rank    
 
-"""
-Wrapper containing all the information you need about a poker hand.
-"""
 class _HandInfo:
+    """
+    Wrapper containing all the information you need about a poker hand.
+    """
     def __init__(self, hand):
         self.rep_result = find_repeat_vals(hand)
         self.str8_result = find_str8(hand)
@@ -1086,8 +1086,8 @@ def totient(n):
     return result * 2
 
 """
-    Recursion terminates by either returning a 1 or a multiple of two depending on which level
-    of convergence it's on.
+Recursion terminates by either returning a 1 or a multiple of two depending on which level
+of convergence it's on.
 """
 def converge_e_helper(acc, curr_level, target):
     if curr_level % 3 == 0:
@@ -1121,8 +1121,8 @@ def e_69():
     print max_n 
 
 """" 
-    Determine closest we can get to 3 / 7 for each denominator by solving for numerator 
-    in 'num / denom = 3 / 7'.
+Determine closest we can get to 3 / 7 for each denominator by solving for numerator 
+in 'num / denom = 3 / 7'.
 """
 def e_71():
     target = float(3) / 7
