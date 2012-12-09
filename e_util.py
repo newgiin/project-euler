@@ -3,7 +3,11 @@ import math
 # ------------------------
 # Number crunching
 # ------------------------
-def sieve(n):
+def find_primes(n):
+    """
+    Returns a list of prime numbers up to 'n'. Implemented
+    using the Sieve of Eratosthenes.
+    """
     primes = [2]
     nums = [True] * n
     i = 3
