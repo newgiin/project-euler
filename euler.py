@@ -5,7 +5,7 @@ from decimal import *
 import sys
 import e_util
 
-INPUT_DIR = "in_files / "
+INPUT_DIR = "in_files/"
          
 def e_16():
     print sum([int(c) for c in str(2**1000)])
@@ -128,7 +128,7 @@ def e_19():
     
     print sum
     
-def sumDivisors(n):
+def sum_divisors(n):
     sum = 0
     for i in range(1, int(math.sqrt(n)) + 1):
         if n % i == 0:
@@ -142,8 +142,8 @@ def e_21():
     result = 0
     for i in range(n):
         if i not in visited:
-            d = sumDivisors(i)
-            if sumDivisors(d) == i and d != i:
+            d = sum_divisors(i)
+            if sum_divisors(d) == i and d != i:
                 result += i
                 visited.append(i)
                 if d < n:
@@ -162,23 +162,23 @@ def e_25():
         n += 1
     print n
     
-def findMaxRecur(s):
+def find_max_recur(s):
     result = ""
     # do binary split
-    rightLimit = int(len(s) / 2)
-    while rightLimit > 0:
-        for start in range(len(s) - rightLimit * 2 + 1):
-            substring = s[start : rightLimit + start]
-            if substring == s[rightLimit + start : rightLimit + start + len(substring)]:
+    right_limit = int(len(s) / 2)
+    while right_limit > 0:
+        for start in range(len(s) - right_limit * 2 + 1):
+            substring = s[start : right_limit + start]
+            if substring == s[right_limit + start : right_limit + start + len(substring)]:
                 # if 's' contains substring sufficient number of times, 
                 # with some leeway at head and tail
                 if s.count(substring) > int(len(s) / len(substring)) - 5:
-                    subresult = findMaxRecur(substring)
+                    subresult = find_max_recur(substring)
                     if len(subresult) > 0:
                         return subresult
                     else:
                         return substring
-        rightLimit -= 1
+        right_limit -= 1
     return result
     
 def e_26():
@@ -188,7 +188,7 @@ def e_26():
     start = time.time()
     for d in range(3, 1000):
         dec = str(Decimal(1) / Decimal(d)).split(".")[1]
-        recurrer = findMaxRecur(dec)
+        recurrer = find_max_recur(dec)
         if len(max_str) < len(recurrer):
             max_d = d
             max_str = recurrer
@@ -211,28 +211,28 @@ def e_27():
     print max_a * max_b
     
 def e_28():
-    spiralSize = 3
+    spiral_size = 3
     curr = 1
     result = 1
-    while spiralSize <= 1001:
+    while spiral_size <= 1001:
         for i in range(4):
-            curr += spiralSize - 1
+            curr += spiral_size - 1
             result += curr
-        spiralSize += 2
+        spiral_size += 2
     print result
     
 def e_31():
     denoms = [1, 2, 5, 10, 20, 50, 100, 200]
 
-    def combo_recurr(n, maxDenom):
-        if maxDenom == 1:
+    def combo_recurr(n, max_denom):
+        if max_denom == 1:
             return 1
-        remainder = n - maxDenom
+        remainder = n - max_denom
         if remainder == 0:
-            return 1 + combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
+            return 1 + combo_recurr(n, denoms[denoms.index(max_denom) - 1])
         if remainder < 0:
-            return combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
-        return combo_recurr(remainder, maxDenom) + combo_recurr(n, denoms[denoms.index(maxDenom) - 1])
+            return combo_recurr(n, denoms[denoms.index(max_denom) - 1])
+        return combo_recurr(remainder, max_denom) + combo_recurr(n, denoms[denoms.index(max_denom) - 1])
     
     def combos(n):
         return combo_recurr(n, 200)
@@ -241,7 +241,7 @@ def e_31():
     print combos(200)
 
 def e_35():
-    def isCircular(n):
+    def is_circular(n):
         n = list(str(n))
         for i in range(len(n) - 1):
             last = n[len(n) - 1]
@@ -252,12 +252,12 @@ def e_35():
                 return False
         return True
 
-    primes = e_util.sieve(1000000)
+    primes = e_util.find_primes(1000000)
 
     # count number of circular primes
     count = 0
     for i in range(len(primes)):
-        if isCircular(primes[i]):
+        if is_circular(primes[i]):
             count += 1
     print count
     
@@ -269,7 +269,7 @@ def e_36():
     print total
     
 def e_37():
-    primes = e_util.sieve(900000)
+    primes = e_util.find_primes(900000)
     result = []
     for i in range(4, len(primes)):
         s = str(primes[i])
@@ -314,7 +314,7 @@ def e_40():
     print result
         
 def e_41():
-    def isPanDigital(x):
+    def is_pandigital(x):
         x = str(x)
         n = len(x)
         digits = []
@@ -325,9 +325,9 @@ def e_41():
                 return False
         return True
     
-    primes = e_util.sieve(99999999)
+    primes = e_util.find_primes(99999999)
     for i in reversed(primes):
-        if isPanDigital(i):
+        if is_pandigital(i):
             print i
             break
         
@@ -349,7 +349,7 @@ def e_67():
     print max(arr[len(arr) - 1])
     
 def e_49():
-    primes = e_util.sieve(10000)
+    primes = e_util.find_primes(10000)
     for i in range(0, len(primes) - 3):
         for j in range(i + 1, len(primes) - 2): 
             if e_util.is_perm(str(primes[i]), str(primes[j])):
@@ -473,8 +473,8 @@ def get_patterns(s):
 def e_51():
     mem = {}
     num_digits = 0
-    family_target = 8
-    for prime in e_util.sieve(1000000):
+    FAMILY_TARGET = 8
+    for prime in e_util.find_primes(1000000):
         prime_str = str(prime)
         if len(prime_str) > num_digits:
             mem = {}
@@ -482,7 +482,7 @@ def e_51():
         for pattern in get_patterns(prime_str):
             if pattern in mem:
                 mem[pattern] += 1
-                if mem[pattern] == family_target:
+                if mem[pattern] == FAMILY_TARGET:
                     print pattern + " " + prime_str
                     return
             else:
@@ -609,8 +609,8 @@ def e_55():
 def e_50():
     max = 0
     max_sum = 0
-    primes = e_util.sieve(5000)
-    prime_set = set(e_util.sieve(1000000))
+    primes = e_util.find_primes(5000)
+    prime_set = set(e_util.find_primes(1000000))
     for i in range(0, len(primes)):
         sum = primes[i]
         seq_len = 1
@@ -660,7 +660,7 @@ def e_42():
             result += 1
     print result 
 
-def is_sumPrimeAndDouble(x, primes=e_util.sieve(1000000)):
+def is_sumPrimeAndDouble(x, primes=e_util.find_primes(1000000)):
     p = primes[0]
     i = 0
     while p < x: 
@@ -677,7 +677,7 @@ def is_sumPrimeAndDouble(x, primes=e_util.sieve(1000000)):
 
 def e_46():
     i = 9
-    primes = e_util.sieve(10000)
+    primes = e_util.find_primes(10000)
     while True:
         if not e_util.is_prime(i) and not is_sumPrimeAndDouble(i, primes):
             print i
@@ -710,7 +710,7 @@ def e_47():
 
 def e_43():
     sum = 0
-    primes = e_util.sieve(18)
+    primes = e_util.find_primes(18)
     for p in e_util.get_perms("0123456789"):
         flag = True
         for i in range(1, 8):
@@ -1125,12 +1125,12 @@ Determine closest we can get to 3 / 7 for each denominator by solving for numera
 in 'num / denom = 3 / 7'.
 """
 def e_71():
-    target = float(3) / 7
+    TARGET = float(3) / 7
     closest = float('infinity')
     closest_num = closest_denom = 0
     for denom in range(3, 1000001):
-        num = int(denom * target)
-        diff = target - (float(num) / denom)
+        num = int(denom * TARGET)
+        diff = TARGET - (float(num) / denom)
         if diff < closest and diff != 0:
             closest = diff
             closest_num = num
@@ -1153,20 +1153,37 @@ def e_73():
     print result
     
 def e_74():
-    target = 60
+    TARGET = 60
     result = 0
     for i in range(69, 1000000):
         chain = set([i])
         fact_sum = sum(map(math.factorial, map(int, str(i))))
         while fact_sum not in chain:
             chain.add(fact_sum)
-            if len(chain) > target:
+            if len(chain) > TARGET:
                 break            
             fact_sum = sum(map(math.factorial, map(int, str(fact_sum))))
-        if len(chain) == target:
+        if len(chain) == TARGET:
             result += 1
     print result
-        
+
+    
+def num_sums(n, terms, lwr_lim):
+    if terms == 1:
+        return 1
+    result = 0
+    for i in range(lwr_lim, n / terms + 1):
+        rmdr = n - i
+        result += num_sums(rmdr, terms - 1, i)
+    return result
+    
+def e_76():
+    n = 100
+    result = 0
+    for num_terms in range(2, n + 1):
+        result += num_sums(n, num_terms, 1)
+    print result
+              
 def e_81():
     f = open(INPUT_DIR + "matrix.txt", "r")
     arr = [map(int, line.split(",")) for line in f]
@@ -1193,23 +1210,39 @@ def e_81():
                 arr[row][curr] += arr[row - 1][curr]
         curr += 1
     print arr[num_rows - 1][num_cols - 1]
-    
-def num_sums(n, terms, lwr_lim):
-    if terms == 1:
-        return 1
+
+def find_num_rectangles(width, height):
     result = 0
-    for i in range(lwr_lim, n / terms + 1):
-        rmdr = n - i
-        result += num_sums(rmdr, terms - 1, i)
+    for h in range(1, height + 1):
+        for w in range(1, width + 1):
+            result += (height - h + 1) * (width - w + 1)
     return result
+
+def e_85():
+    height = 0
+    closest = float('inf')
+    area = 0
+    recs = 0
+    TARGET = 2000000
+    flag = True
     
-def e_76():
-    n = 100
-    result = 0
-    for num_terms in range(2, n + 1):
-        result += num_sums(n, num_terms, 1)
-    print result
-      
+    while flag:
+        flag = False
+        height += 1
+        width = 1
+        recs = find_num_rectangles(width, height)
+        while recs < TARGET:
+            flag = True
+            diff = math.fabs(TARGET - recs)
+            if diff < closest:
+                closest = diff
+                area = width * height
+            width += 1
+            recs = find_num_rectangles(width, height)
+            
+    print area
+            
+    
 def e_92():
     total = 0
     lkup_tbl = {}
@@ -1318,6 +1351,22 @@ def e_125():
         if e_util.is_palindrome(str(i)):
             print i
     
+def e_206():
+    i = 1009000000
+    i_s = str(i**2)
+    match = ['2', '3', '4', '5', '6', '7', '8', '9', '0']
+    while i_s[0] == '1':
+        i += 1
+        i_s = str(i**2)
+        matched_all = True
+        for j in range(len(match)):
+            if match[j] != i_s[(j + 1) * 2]:
+                matched_all = False
+            
+        if matched_all:
+            print i
+            break
+
 def main():
     start = time.time()
     i = 0

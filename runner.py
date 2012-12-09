@@ -2,7 +2,6 @@
 import euler
 import argparse
 import signal
-import time
 import sys
 
 class TimeoutException(Exception):
@@ -19,9 +18,7 @@ def run_sol(n, timeout):
         signal.alarm(timeout)
     try:
         func_name = "euler.e_" + str(n) + "()"
-        start = time.time()
         exec(func_name)
-        print "\tTIME: " + str(time.time() - start)
     except AttributeError:
     	print "Not implemented."
     except TimeoutException:
