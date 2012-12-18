@@ -1350,7 +1350,8 @@ def e_125():
     for i in range(2, 10**8):
         if e_util.is_palindrome(str(i)):
             print i
-    
+
+#TODO            
 def e_206():
     i = 1009000000
     i_s = str(i**2)
@@ -1367,13 +1368,44 @@ def e_206():
             print i
             break
 
+def find_max(matrix, visited, row):
+    if row >= len(matrix):
+        return 0
+    max_sum = 0
+    for col in range(len(matrix)):
+        if col not in visited:
+            visited_copy = set(visited)
+            visited_copy.add(col)
+            total =  matrix[row][col] + find_max(matrix, visited_copy, row + 1)
+            if max_sum < total:
+                max_sum = total
+                
+    return max_sum
+    
+# TODO
+def e_345():
+    f = open(INPUT_DIR + "345.in", "r")
+    matrix = []
+    LIMIT = 11
+    i = 0
+    for line in f:
+        if i > LIMIT:
+            break
+        i += 1
+        row = []
+        j = 0
+        for n in line.split():
+            if j > LIMIT:
+                break
+            j += 1
+            row.append(int(n))
+        matrix.append(row)
+        
+    print find_max(matrix, set(), 0)
+    
 def main():
     start = time.time()
-    i = 0
-    c = (10**9) / 13
-    while i < (10**9) / 13:
-        x = 1 + 1
-        i += 1
+    e_345()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
