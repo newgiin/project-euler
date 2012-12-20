@@ -1368,40 +1368,90 @@ def e_206():
             print i
             break
 
-def find_max(matrix, visited, row):
-    if row >= len(matrix):
-        return 0
-    max_sum = 0
+def find_bad_cols(matrix):
+    bad_cols = []
     for col in range(len(matrix)):
-        if col not in visited:
-            visited_copy = set(visited)
-            visited_copy.add(col)
-            total =  matrix[row][col] + find_max(matrix, visited_copy, row + 1)
-            if max_sum < total:
-                max_sum = total
-                
-    return max_sum
-    
+        col_list = []
+        for row in range(len(matrix)):
+            col_list.append(matrix[row][col])
+        if col_list.count(0) == 0:
+            bad_cols.append(col)
+    return bad_cols
+ 
+def print_matrix(matrix):
+    for row in range(len(matrix)):
+        for col in range(len(matrix[row])):
+            print  str(matrix[row][col]) + ", ",
+        print ""
+        
+def print_reduced_matrix(matrix, reduced):        
+    for row in range(len(matrix)):
+        for col in range(len(matrix)):
+            if reduced[row][col] == 0:
+                print  str(matrix[row][col]) + ", ",
+            else:
+                print  "-, ",
+        print ""
 # TODO
 def e_345():
     f = open(INPUT_DIR + "345.in", "r")
+    orig_matrix = []
     matrix = []
-    LIMIT = 11
-    i = 0
     for line in f:
-        if i > LIMIT:
-            break
-        i += 1
         row = []
         j = 0
         for n in line.split():
-            if j > LIMIT:
-                break
-            j += 1
             row.append(int(n))
-        matrix.append(row)
-        
-    print find_max(matrix, set(), 0)
+        orig_matrix.append(row)
+        matrix.append(list(row))
+      
+    for row in range(len(matrix)):
+        row_max = max(matrix[row])
+        for col in range(len(matrix)):
+            matrix[row][col] = row_max - matrix[row][col]
+            
+    bad_cols = find_bad_cols(matrix)
+    if len(bad_cols) > 0:
+        for col in bad_cols:
+            col_list = []
+            for row in range(len(matrix)):
+                col_list.append(matrix[row][col])
+            col_min = min(col_list)
+            for row in range(len(matrix)):
+                matrix[row][col] = matrix[row][col] - col_min
+
+        # step 3
+        marked_cols = [x for x in range(0, len(matrix))]
+        marked_rows = []
+        for row in range(len(matrix)):
+            zero_cols = []
+            for col in range(len(matrix)):
+                if matrix[row][col] == 0:
+                    zero_cols.append(col)
+            if len(zero_cols) > 1:
+                cols_to_unmark = []
+                for zero_col in zero_cols:
+                    can_unmark_col = True
+                    co_col_zeroes = []
+                    for row_j in range(len(matrix)):
+                        if row_j != row and matrix[row_j][zero_col] == 0:
+                            co_col_zeroes.append(row_j)
+                    
+                    for co_col_zero in co_col_zeroes:
+                        if co_col_zero not in marked_rows:
+                            can_unmark_col = False
+                    
+                    if can_unmark_col:
+                        cols_to_unmark.append(zero_col)
+                if len(cols_to_unmark) > 1:
+                    for col in cols_to_unmark:
+                        if col in marked_cols:
+                            marked_cols.remove(col)
+                    marked_rows.append(row)
+        print marked_cols
+        print marked_rows
+    else:
+        print_matrix(matrix)
     
 def main():
     start = time.time()
