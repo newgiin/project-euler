@@ -1355,15 +1355,15 @@ def e_125():
 def e_206():
     i = 1009000000
     i_s = str(i**2)
-    match = ['2', '3', '4', '5', '6', '7', '8', '9', '0']
+    template = ['2', '3', '4', '5', '6', '7', '8', '9', '0']
     while i_s[0] == '1':
         i += 1
         i_s = str(i**2)
         matched_all = True
-        for j in range(len(match)):
-            if match[j] != i_s[(j + 1) * 2]:
+        for j in range(len(template)):
+            if template[j] != i_s[(j + 1) * 2]:
                 matched_all = False
-            
+                break
         if matched_all:
             print i
             break
