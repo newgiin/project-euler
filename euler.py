@@ -1351,7 +1351,6 @@ def e_125():
         if e_util.is_palindrome(str(i)):
             print i
 
-#TODO            
 def e_206():
     i = 1009000000
     i_s = str(i**2)

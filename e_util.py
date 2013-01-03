@@ -65,17 +65,27 @@ def get_prime_factors(x):
 # ------------------------
 # String crunching
 # ------------------------
-def is_perm(x, y):
-    if len(x) != len(y):
+def is_perm(word1, word2):
+    if len(word1) != len(word2):
         return False
-    for c in x:
-        c_index = y.find(c)
-        if c_index == -1:
+    counts = {}
+    for c in word1:
+        if c not in counts:
+            counts[c] = 1
+        else:
+            counts[c] += 1
+            
+    for c in word2:
+        if c not in counts:
             return False
-        y = y[0:c_index] + y[c_index + 1:] 
-    if len(y) == 0:
-        return True
-    return False
+        counts[c] -= 1
+        if counts[c] < 0:
+            return False
+        elif counts[c] == 0:
+            del counts[c]
+    if len(counts) != 0:
+        return False
+    return True
     
 """ Returns an array of unique permutations of the input string. """
 def get_perms(word):
