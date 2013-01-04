@@ -61,7 +61,26 @@ def factorial(n):
     return result   
   
 def get_prime_factors(x):
-    return filter(is_prime, get_factors(x))              
+    return filter(is_prime, get_factors(x))
+
+""" 
+Solves quadratic equation and returns left and right zero-crossing in a list, 
+at index 0 and 1 respectively.
+"""
+def solve_quad(a, b, c):
+    sol = [None] * 2
+    if a == 0:
+        if b != 0:
+            sol[0] = -c / b
+    else:
+        try:
+            root = math.sqrt(b**2 - 4 * a * c)
+            sol[0] = (-1 * b - root) / float(2 * a)
+            sol[1] = (-1 * b + root) / float(2 * a)
+        except ValueError:
+            pass
+    return sol
+    
 # ------------------------
 # String crunching
 # ------------------------

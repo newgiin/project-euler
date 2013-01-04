@@ -421,14 +421,14 @@ def e_23():
     print total
 
 def is_penta(x):
-    c = -2 * x
-    if ((1 + math.sqrt(1 - 12 * c)) / 6) % 1 == 0:
+    sol = e_util.solve_quad(3, -1,  -2 * x)[1]
+    if sol != None and sol > 0 and sol % 1 == 0:
         return True
     return False
 
 def is_hexa(x):
-    c = x * -1
-    if ((1 + math.sqrt(1 - 8 * c)) / 4) % 1 == 0:
+    sol = e_util.solve_quad(2, -1,  -x)[1]
+    if sol != None and sol > 0 and sol % 1 == 0:
         return True
     return False
     
@@ -626,37 +626,26 @@ def e_50():
             max_sum = sum
     print max_sum
 
-# Solves quadratic equation and returns left and right zero-crossing in a list, 
-# at index 1 and 2 respectively.
-def solv_quad(a, b, c):
-    sol = [None] * 2
-    try:
-        sol[0] = (-1 * b - math.sqrt(b**2 - 4 * a * c)) / float(2 * a)
-    except (ValueError, DivideByZeroError):
-        pass
-    try:
-        sol[1] = (-1 * b + math.sqrt(b**2 - 4 * a * c)) / float(2 * a)
-    except (ValueError, DivideByZeroError):
-        pass
-    return sol
-
-def is_triangle(word):
+def is_triangle(x):
+    sol = e_util.solve_quad(1, 1, -2 * x)[1]
+    if sol != None and sol > 0 and sol % 1 == 0:
+        return True
+    return False
+    
+def is_triangle_word(word):
     total = 0
     for c in word:
         total += ord(c) - 64
-    sol = solv_quad(1, 1, -2 * total)[1]
-    if sol != None and sol % 1 == 0:
-        return True
-    return False
+    return is_triangle(total)
 
 def e_42():
     result = 0
-    f = open("words.txt", "r")
+    f = open(INPUT_DIR + "words.txt", "r")
     line = f.readline()
     words = line.split(",")
     for w in words:
         w = w.replace('"', '')
-        if is_triangle(w):
+        if is_triangle_word(w):
             result += 1
     print result 
 
@@ -1036,6 +1025,66 @@ def e_58():
             return
         skip += 2
 
+def is_hepta(x):
+    sol = e_util.solve_quad(5, -3, -2 * x)[1]
+    if sol != None and sol > 0 and sol % 1 == 0:
+        return True
+    return False    
+
+def is_octa(x):
+    sol = e_util.solve_quad(3, -2,  -x)[1]
+    if sol != None and sol > 0 and sol % 1 == 0:
+        return True
+    return False
+
+def is_square(x):
+    return math.sqrt(x) % 1 == 0
+    
+"""
+Returns 0 if x is a triangle number, 1 if square, ... , 5 if octagonal.
+"""
+def check_fam(x):
+    func_arr = [is_triangle, is_square, is_penta, is_hexa, is_hepta, is_octa]
+    for i in range(len(func_arr)):
+        if func_arr[i](x):
+            return i
+    return None
+
+def find_cyclic_chain(fam_map, x, fams_found):
+    result = []
+    # base case when x does not belong to a family or if we've already seen
+    # this family.
+    if x not in fam_map or fams_found[fam_map[x]]:
+        return result
+        
+    result.append(x)
+    fams_found[fam_map[x]] = True
+    longest = []
+    next_num = int(str(x)[-2 : ] + "10")
+    # return longest possible chain
+    for i in range(next_num, next_num + 90): # e.g. for numbers between 1810 to 1899
+        chain = find_cyclic_chain(fam_map, i, list(fams_found))
+        if len(chain) > len(longest):
+            longest = chain
+            
+    return result + longest
+
+def e_61():
+    fam_map = {}
+    for i in range(1000, 10000):
+        fam = check_fam(i)
+        if fam is not None:
+            fam_map[i] = fam
+  
+    for i in range(1010, 10000):
+        if str(i)[2] == "0" or i not in fam_map:
+            continue
+        chain = find_cyclic_chain(fam_map, i, [False] * 6)
+        if len(chain) == 6 and str(chain[len(chain) - 1])[-2 : ] == str(i)[0 : 2]:
+            print chain
+            print sum(chain)
+            return   
+        
 def e_62():
     P = 5
     i = 5
