@@ -63,11 +63,11 @@ def factorial(n):
 def get_prime_factors(x):
     return filter(is_prime, get_factors(x))
 
-""" 
-Solves quadratic equation and returns left and right zero-crossing in a list, 
-at index 0 and 1 respectively.
-"""
 def solve_quad(a, b, c):
+    """ 
+    Solves quadratic equation and returns left and right 
+    zero-crossing in a list, at index 0 and 1 respectively.
+    """
     sol = [None] * 2
     if a == 0:
         if b != 0:
@@ -106,8 +106,8 @@ def is_perm(word1, word2):
         return False
     return True
     
-""" Returns an array of unique permutations of the input string. """
 def get_perms(word):
+    """ Returns an array of unique permutations of the input string. """
     result = []
     seen = []
     for i in range(0, len(word)):
@@ -127,8 +127,11 @@ def is_palindrome(s):
             return False
     return True 
 
-""" Returns a list of all possible 'n'-character combinations of the symbols in 'alphabet'. """    
 def get_combos(alphabet, n):
+    """ 
+    Returns a list of all possible 'n'-character combinations 
+    of the symbols in 'alphabet'. 
+    """    
     result = []
     if n == 1:
         return list(alphabet)
@@ -137,3 +140,33 @@ def get_combos(alphabet, n):
         for c in get_combos(remainder, n - 1):
             result.append(alphabet[i] + c)    
     return result    
+
+def repeat_perms(items, n):
+    """ 
+    Returns a list of all n-length permutations of
+    items in 'items', allowing repetition
+    """
+    if n <= 0:
+        return []
+    if n == 1:
+        return [[item] for item in items]
+    result = []
+    for item in items:
+        for s in repeat_perms(items, n - 1):
+            result.append([item] + s)
+    return result 
+
+def repeat_combos(items, n):
+    if n <= 0 or len(items) == 0:
+        return []
+    if n == 1:
+        return [[item] for item in items]
+    result = []
+    subset = items[1:]
+    result.append([items[0]]*n)
+    for i in range(n):
+        prefix = [items[0]]*i
+        for combo in repeat_combos(subset, n - i):
+            result.append(prefix + combo)   
+    return result
+

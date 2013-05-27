@@ -1,4 +1,5 @@
 import math
+import random
 import time
 import fractions
 from decimal import *
@@ -1537,9 +1538,20 @@ def e_345():
     else:
         print_matrix(matrix)
     
+def e_205():
+    wins = 0
+    total = 0
+    pete_sums = map(sum, e_util.repeat_perms([1,2,3,4], 9))
+    colin_sums = map(sum, e_util.repeat_perms([1,2,3,4,5,6], 6))
+    for pete in pete_sums:
+        for colin in colin_sums:
+           if pete > colin:
+                wins += 1
+    print float(wins) / (len(pete_sums) * len(colin_sums))   
+
 def main():
     start = time.time()
-    e_345()
+    e_205()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
