@@ -1041,10 +1041,10 @@ def is_octa(x):
 def is_square(x):
     return math.sqrt(x) % 1 == 0
     
-"""
-Returns 0 if x is a triangle number, 1 if square, ... , 5 if octagonal.
-"""
 def check_fam(x):
+    """
+    Returns 0 if x is a triangle number, 1 if square, ... , 5 if octagonal.
+    """
     func_arr = [is_triangle, is_square, is_penta, is_hexa, is_hepta, is_octa]
     for i in xrange(len(func_arr)):
         if func_arr[i](x):
@@ -1061,13 +1061,13 @@ def find_cyclic_chain(fam_map, x, fams_found):
     result.append(x)
     fams_found[fam_map[x]] = True
     longest = []
-    next_num = int(str(x)[-2 : ] + "10")
+    next_num = int(str(x)[-2 : ] + "00")
     # return longest possible chain
-    for i in xrange(next_num, next_num + 90): # e.g. for numbers between 1810 to 1899
+    # e.g. for numbers between 1800 to 1899
+    for i in xrange(next_num, next_num + 100):
         chain = find_cyclic_chain(fam_map, i, list(fams_found))
         if len(chain) > len(longest):
             longest = chain
-            
     return result + longest
 
 def e_61():
@@ -1077,14 +1077,13 @@ def e_61():
         if fam is not None:
             fam_map[i] = fam
   
-    for i in xrange(1010, 10000):
-        if str(i)[2] == "0" or i not in fam_map:
-            continue
+    for i in fam_map:
         chain = find_cyclic_chain(fam_map, i, [False] * 6)
-        if len(chain) == 6 and str(chain[len(chain) - 1])[-2 : ] == str(i)[0 : 2]:
+        #if len(chain) == 6 and str(chain[len(chain) - 1])[-2 : ] \
+         #       == str(i)[0 : 2]:
+        if len(chain) == 6:
             print chain
-            print sum(chain)
-            return   
+            #print sum(chain)
         
 def e_62():
     P = 5
@@ -1541,17 +1540,25 @@ def e_345():
 def e_205():
     wins = 0
     total = 0
+    m = {}
     pete_sums = map(sum, e_util.repeat_perms([1,2,3,4], 9))
     colin_sums = map(sum, e_util.repeat_perms([1,2,3,4,5,6], 6))
     for pete in pete_sums:
-        for colin in colin_sums:
-           if pete > colin:
-                wins += 1
+        if pete in m:
+            wins += m[pete]
+        else:
+            c = 0
+            for colin in colin_sums:
+               if pete > colin:
+                    c += 1
+            wins += c
+            m[pete] = c
+            
     print float(wins) / (len(pete_sums) * len(colin_sums))   
 
 def main():
     start = time.time()
-    e_205()
+    e_61()
     print "TIME: " + str(time.time() - start)
 
 if __name__ == '__main__':
