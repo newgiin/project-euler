@@ -1055,9 +1055,14 @@ def find_cyclic_chain(fam_map, x, fams_found):
     result = []
     # base case when x does not belong to a family or if we've already seen
     # this family.
-    if x not in fam_map or fams_found[fam_map[x]]:
+    if x not in fam_map:
         return result
-        
+    if fams_found[fam_map[x]]:
+        # all hexagonal numbers are also triangular
+        if fam_map[x] == 0 and not fams_found[3]:
+            fams_found[3] = True 
+        else:
+            return result
     result.append(x)
     fams_found[fam_map[x]] = True
     longest = []
@@ -1076,14 +1081,13 @@ def e_61():
         fam = check_fam(i)
         if fam is not None:
             fam_map[i] = fam
-  
     for i in fam_map:
         chain = find_cyclic_chain(fam_map, i, [False] * 6)
-        #if len(chain) == 6 and str(chain[len(chain) - 1])[-2 : ] \
-         #       == str(i)[0 : 2]:
-        if len(chain) == 6:
+        if len(chain) == 6 and str(chain[len(chain) - 1])[-2 : ] \
+                == str(i)[0 : 2]:
             print chain
-            #print sum(chain)
+            print sum(chain)
+            return
         
 def e_62():
     P = 5
