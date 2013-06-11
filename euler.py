@@ -441,11 +441,11 @@ def e_45():
        tri = n * (n + 1) / 2
     print tri 
 
-""" 
+def get_patterns(s):
+    """ 
     Given a string, return a list of patterns where each pattern replaces 
     occurences of a unique character with one or more asterisks.
-"""
-def get_patterns(s):
+    """
     result = []
     char_count = {}
     for c in s:
@@ -822,9 +822,9 @@ class _RepeatValsResult:
         # value of a {3,4}-of-a-kind, pair vals
         self.val = self.pair1_val = self.pair2_val = None
         self.remainder = []
-
-""" Determines if a hand contains pairs, or a {3,4}-of-a-kind """    
+   
 def find_repeat_vals(hand):
+    """ Determines if a hand contains pairs, or a {3,4}-of-a-kind """ 
     vals = {} # Map: val -> # of cards with value of 'val' in hand
     result = _RepeatValsResult()
 
@@ -947,9 +947,9 @@ class _HandInfo:
         self.str8_result = find_str8(hand)
         self.is_flush = has_flush(hand)
         self.rank = rank_hand(self)
-        
-""" Returns True iff hand 1 is the winning hand """        
+            
 def is_winning_hand(h1_info, h2_info):
+    """ Returns True iff hand 1 is the winning hand """    
     if h1_info.rank != h2_info.rank:
         return h1_info.rank > h2_info.rank
     # resolve tie
@@ -994,11 +994,11 @@ def e_54():
             result += 1
     print result
 
-""" 
+def e_57():
+    """ 
     'acc' represents the fraction we add to 1 to calculate sqrt(2). With each iteration, we can see that
     the acc for the next iteration is simply 1 / (2 + previous_acc).
-"""
-def e_57():
+    """
     result = 0
     acc = fractions.Fraction(1, 2)
     for i in xrange(1, 1000):
@@ -1138,11 +1138,11 @@ def totient(n):
                 
     return result * 2
 
-"""
-Recursion terminates by either returning a 1 or a multiple of two depending on which level
-of convergence it's on.
-"""
 def converge_e_helper(acc, curr_level, target):
+    """
+    Recursion terminates by either returning a 1 or a multiple of two depending on which level
+    of convergence it's on.
+    """
     if curr_level % 3 == 0:
         if curr_level == target:
             return acc
@@ -1173,11 +1173,11 @@ def e_69():
             print n
     print max_n 
 
-"""" 
-Determine closest we can get to 3 / 7 for each denominator by solving for numerator 
-in 'num / denom = 3 / 7'.
-"""
 def e_71():
+    """" 
+    Determine closest we can get to 3 / 7 for each denominator by solving for numerator 
+    in 'num / denom = 3 / 7'.
+    """    
     TARGET = float(3) / 7
     closest = float('infinity')
     closest_num = closest_denom = 0
@@ -1190,8 +1190,8 @@ def e_71():
             closest_denom = denom
     print closest_num, " / " , closest_denom
 
-"""" Same idea as e_71() """
 def e_73():
+    """" Same idea as e_71() """
     result = 0
     d = 12000
     left_bound = float(1) / 3
@@ -1372,8 +1372,8 @@ def e_112():
             return
         i += 1
         
-#TODO
 def e_113():
+    # TODO
     result = 0
     i = 1
     digits2mem = 6
@@ -1398,8 +1398,9 @@ def e_113():
         
     print result
 
-# TODO    
+ 
 def e_125():
+    # TODO   
     for i in xrange(2, 10**8):
         if e_util.is_palindrome(str(i)):
             print i
@@ -1444,8 +1445,9 @@ def print_reduced_matrix(matrix, reduced):
             else:
                 print  "-, ",
         print ""
-# TODO
+
 def e_345():
+    # TODO
     f = open(INPUT_DIR + "345.in", "r")
     orig_matrix = []
     matrix = []
