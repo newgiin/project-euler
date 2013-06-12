@@ -27,6 +27,29 @@ def find_primes(n):
     
     return primes
 
+def find_primes_set(n):
+    """
+    Returns a set of prime numbers up to 'n'.
+    """
+    primes = set([2])
+    nums = [True] * n
+    i = 3
+    while i < n:
+        primes.add(i)
+        sieve = i * i
+        step = 2 * i
+        while sieve < n:
+            nums[sieve] = False
+            sieve += step 
+        # find next unmarked num
+        i += 2
+        while i < n:
+           if nums[i]:
+                break 
+           i += 2
+
+    return primes
+    
 def is_prime(x):
     if x == 2:
         return True
@@ -39,6 +62,7 @@ def is_prime(x):
     
 def get_factors(x):
     result = [1]
+    big_half = []
     if x == 1:
         return result
 
@@ -46,14 +70,14 @@ def get_factors(x):
     for i in range(2, int(root) + 1):
         if x % i == 0:
             result.append(i)
-            result.append(x / i)
-    result.sort()
-
+            big_half.insert(0, x / i)
     if root % 1 == 0:
-        result.remove(int(root)) # remove duplicate root 
-
-    return result  
-
+        big_half.pop(0) # remove duplicate root 
+    result += big_half
+    result.append(x)
+    
+    return result
+    
 def factorial(n):
     result = 1
     for i in range(2, n + 1):
