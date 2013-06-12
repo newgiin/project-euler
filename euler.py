@@ -1066,10 +1066,10 @@ def find_cyclic_chain(fam_map, x, fams_found):
     result.append(x)
     fams_found[fam_map[x]] = True
     longest = []
-    next_num = int(str(x)[-2 : ] + "00")
+    start = (x % 100) * 100
     # return longest possible chain
     # e.g. for numbers between 1800 to 1899
-    for i in xrange(next_num, next_num + 100):
+    for i in xrange(start, start + 100):
         chain = find_cyclic_chain(fam_map, i, list(fams_found))
         if len(chain) > len(longest):
             longest = chain
@@ -1083,8 +1083,8 @@ def e_61():
             fam_map[i] = fam
     for i in fam_map:
         chain = find_cyclic_chain(fam_map, i, [False] * 6)
-        if len(chain) == 6 and str(chain[len(chain) - 1])[-2 : ] \
-                == str(i)[0 : 2]:
+        if len(chain) == 6 and chain[len(chain) - 1] % 100 \
+                == i / 100:
             print chain
             print sum(chain)
             return
