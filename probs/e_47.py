@@ -3,10 +3,10 @@ def main():
     T = 4 # find first T consecutive integers with T distinct factors
     i_processed = False # optimization to avoid getting prime factors twice
     while True:
-        if i_processed or len(e_util.get_prime_factors(i)) >= T:
+        if i_processed or len(e_util.prime_factors((i)) >= T:
             seq_len = 1
             for j in reversed(xrange(1, T)): 
-                if len(e_util.get_prime_factors(i + j)) >= T:
+                if len(e_util.prime_factors((i + j)) >= T:
                     seq_len += 1
                 else:
                     break

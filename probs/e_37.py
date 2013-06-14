@@ -1,5 +1,5 @@
 def main():
-    primes = e_util.find_primes(900000)
+    primes = e_util.primes(900000)
     result = []
     for i in xrange(4, len(primes)):
         s = str(primes[i])

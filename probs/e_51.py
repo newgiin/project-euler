@@ -16,7 +16,7 @@ def get_patterns(s):
         if len(char_count) == 1: # don't include patterns of only wildcards, e.g. "****"
             num_wilds = char_count[key] - 1
         for i in xrange(1, num_wilds + 1): # for every possible number of wildcards
-            for perm in e_util.get_perms(key * (char_count[key] - i) + "*" * i):
+            for perm in e_util.perms(key * (char_count[key] - i) + "*" * i):
                 pattern = ""
                 j = 0
                 for c in s:
@@ -32,7 +32,7 @@ def main():
     mem = {}
     num_digits = 0
     FAMILY_TARGET = 8
-    for prime in e_util.find_primes(1000000):
+    for prime in e_util.primes(1000000):
         prime_str = str(prime)
         if len(prime_str) > num_digits:
             mem = {}

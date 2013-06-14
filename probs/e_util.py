@@ -3,7 +3,7 @@ import math
 # ------------------------
 # Number crunching
 # ------------------------
-def find_primes(n):
+def primes(n):
     """
     Returns a list of prime numbers up to 'n'. Implemented
     using the Sieve of Eratosthenes.
@@ -27,7 +27,7 @@ def find_primes(n):
     
     return primes
 
-def find_primes_set(n):
+def primes_set(n):
     """
     Returns a set of prime numbers up to 'n'.
     """
@@ -60,7 +60,7 @@ def is_prime(x):
             return False
     return True
     
-def get_factors(x):
+def factor(x):
     result = [1]
     big_half = []
     if x == 1:
@@ -84,8 +84,8 @@ def factorial(n):
         result *= i
     return result   
   
-def get_prime_factors(x):
-    return filter(is_prime, get_factors(x))
+def prime_factors(x):
+    return filter(is_prime, factor(x))
 
 def solve_quad(a, b, c):
     """ 
@@ -130,7 +130,7 @@ def is_perm(word1, word2):
         return False
     return True
     
-def get_perms(word):
+def perms(word):
     """ Returns an array of unique permutations of the input string. """
     result = []
     seen = []
@@ -138,7 +138,7 @@ def get_perms(word):
         if word[i] not in seen: # do not include redundants
             seen.append(word[i])
             remainder = word[0 : i] + word[i + 1 : ]
-            for perm in get_perms(remainder):
+            for perm in perms(remainder):
                 result.append(word[i] + perm)
     if len(word) == 1:
         result.append(word[0])
@@ -151,20 +151,20 @@ def is_palindrome(s):
             return False
     return True 
 
-def get_combos(alphabet, n):
+def combos(items, n):
     """ 
     Returns a list of all possible 'n'-character combinations 
-    of the symbols in 'alphabet'. 
+    of the symbols in 'items'. 
     """    
     result = []
     if n == 1:
-        return list(alphabet)
-    for i in range(0, len(alphabet) - n + 1):
-        remainder = alphabet[i + 1 : len(alphabet)]
-        for c in get_combos(remainder, n - 1):
-            result.append(alphabet[i] + c)    
-    return result    
-
+        return [[x] for x in items]
+    for i in range(0, len(items) - n + 1):
+        remainder = items[i + 1 : len(items)]
+        for c in combos(remainder, n - 1):
+            result.append([items[i]] + c)    
+    return result
+  
 def repeat_perms(items, n):
     """ 
     Returns a list of all n-length permutations of

@@ -1,5 +1,5 @@
 def is_prime_generating(n, primes):
-    fs = e_util.get_factors(n)
+    fs = e_util.factor(n)
     if len(fs) % 2 != 0:
         # if it has an integer root, 
         # it can't be prime-generating (since 2*root is not prime)
@@ -12,7 +12,7 @@ def is_prime_generating(n, primes):
 def main():
     sum = 1 # since 1 is prime generating
     n = 100000000
-    primes = e_util.find_primes_set(n + 2)
+    primes = e_util.primes_set(n + 2)
     for i in range(2, n + 2, 2):
         if (i + 1 in primes and
                 i / 2 + 2 in primes and

@@ -1,8 +1,8 @@
 def main():
     max = 0
     max_sum = 0
-    primes = e_util.find_primes(5000)
-    prime_set = set(e_util.find_primes(1000000))
+    primes = e_util.primes(5000)
+    prime_set = set(e_util.primes(1000000))
     for i in xrange(0, len(primes)):
         sum = primes[i]
         seq_len = 1

@@ -1,4 +1,4 @@
-def is_sumPrimeAndDouble(x, primes=e_util.find_primes(1000000)):
+def is_sumPrimeAndDouble(x, primes=e_util.primes(1000000)):
     p = primes[0]
     i = 0
     while p < x: 
@@ -15,7 +15,7 @@ def is_sumPrimeAndDouble(x, primes=e_util.find_primes(1000000)):
 
 def main():
     i = 9
-    primes = e_util.find_primes(10000)
+    primes = e_util.primes(10000)
     while True:
         if not e_util.is_prime(i) and not is_sumPrimeAndDouble(i, primes):
             print i

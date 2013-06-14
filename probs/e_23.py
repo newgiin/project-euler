@@ -1,7 +1,7 @@
 def get_abundants(n):
     result = []
     for i in xrange(2, n):
-        if sum(e_util.get_factors(i)) > i:
+        if sum(e_util.factor(i)) > i:
             result.append(i)
     return result 
 
