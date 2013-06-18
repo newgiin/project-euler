@@ -42,8 +42,8 @@ def main():
     for c in xrange(97, 97 + 26):
         for _ in xrange(0, key_len): # include keys with repeating characters, e.g. 'aaa'
             all_letters += chr(c)
-    for combo in e_util.combos(all_letters, key_len):
-        for key in e_util.perms(combo):
+    for combo in e_util.get_combos(all_letters, key_len):
+        for key in e_util.get_perms(combo):
             decrypt(cipher, key, outname)
             if has_english(outname):
                 print key

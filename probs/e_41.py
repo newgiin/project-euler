@@ -10,7 +10,7 @@ def main():
                 return False
         return True
     
-    primes = e_util.primes(99999999)
+    primes = e_util.get_primes(99999999)
     for i in reversed(primes):
         if is_pandigital(i):
             print i

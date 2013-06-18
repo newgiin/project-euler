@@ -10,7 +10,7 @@ def main():
                 return False
         return True
 
-    primes = e_util.primes(1000000)
+    primes = e_util.get_primes(1000000)
 
     # count number of circular primes
     count = 0

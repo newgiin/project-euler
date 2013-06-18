@@ -3,7 +3,7 @@ import math
 # ------------------------
 # Number crunching
 # ------------------------
-def primes(n):
+def get_primes(n):
     """
     Returns a list of prime numbers up to 'n'. Implemented
     using the Sieve of Eratosthenes.
@@ -117,7 +117,7 @@ def is_perm(word1, word2):
             counts[c] = 1
         else:
             counts[c] += 1
-            
+
     for c in word2:
         if c not in counts:
             return False
@@ -130,7 +130,7 @@ def is_perm(word1, word2):
         return False
     return True
     
-def perms(word):
+def get_perms(word):
     """ Returns an array of unique permutations of the input string. """
     result = []
     seen = []
@@ -151,7 +151,7 @@ def is_palindrome(s):
             return False
     return True 
 
-def combos(items, n):
+def get_combos(items, n):
     """ 
     Returns a list of all possible 'n'-character combinations 
     of the symbols in 'items'. 
