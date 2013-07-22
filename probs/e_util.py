@@ -124,10 +124,6 @@ def is_perm(word1, word2):
         counts[c] -= 1
         if counts[c] < 0:
             return False
-        elif counts[c] == 0:
-            del counts[c]
-    if len(counts) != 0:
-        return False
     return True
     
 def get_perms(word):
