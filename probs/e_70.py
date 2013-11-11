@@ -20,7 +20,7 @@ def totient(n):
 def main():
     smallest = float('inf')
     result = 0
-    for n in range(2, 10**7):
+    for n in range(400399, 10**7):
         t = totient(n)
         if e_util.is_perm(str(t), str(n)):
             r = float(n) / t 
